@@ -21,14 +21,26 @@ Methodology corrections per GPT-5.2 Pro review:
   - LinearSVC with fixed C for A6 (no tuning with small N)
   - Simplified robustness criterion: corrected p >= 0.05
 
+Checkpointing:
+  - Saves progress after each variant and every 1000 permutations
+  - Automatically resumes from checkpoint if interrupted
+  - Checkpoint file: results/robustness-checkpoint.json
+  - Deterministic results regardless of interruptions (fixed seed)
+
 See: docs/decisions/phase2-execution-plan.md
 
-Version: 1.1.0
+Note on run sets:
+  - A1, A2, A4, A5, A6 share identical run sets (14 runs)
+  - A3 (include quotations) adds 1 extra run (run_0007) - 15 runs total
+  - MaxT correction is valid because run overlap is 14/15 (93%)
+
+Version: 1.3.0
 Date: 2026-02-04
 """
 
 import json
 import random
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 from collections import Counter, defaultdict
@@ -45,13 +57,45 @@ from sklearn.feature_extraction.text import HashingVectorizer
 INPUT_FILE = Path("data/text/processed/bom-voice-blocks.json")
 OUTPUT_FILE = Path("results/robustness-results.json")
 REPORT_FILE = Path("results/robustness-report.md")
+CHECKPOINT_FILE = Path("results/robustness-checkpoint.json")
 
 OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 RANDOM_SEED = 42
 MAX_BLOCKS_PER_RUN = 20
 N_PERMUTATIONS = 10000  # Sufficient for maxT; will increase if p near threshold
+CHECKPOINT_INTERVAL = 1000  # Save every N permutations
 VOICES = ["MORMON", "NEPHI", "MORONI", "JACOB"]
+
+
+def save_checkpoint(checkpoint_data: dict):
+    """Save checkpoint to disk for resumption after interruption."""
+    checkpoint_data["checkpoint_time"] = datetime.now(timezone.utc).isoformat()
+    with open(CHECKPOINT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(checkpoint_data, f, indent=2)
+    print(f"  [Checkpoint saved: {checkpoint_data.get('stage', 'unknown')}]")
+
+
+def load_checkpoint() -> dict | None:
+    """Load checkpoint if it exists and is valid."""
+    if not CHECKPOINT_FILE.exists():
+        return None
+    try:
+        with open(CHECKPOINT_FILE, 'r', encoding='utf-8') as f:
+            checkpoint = json.load(f)
+        print(f"  [Checkpoint found from {checkpoint.get('checkpoint_time', 'unknown')}]")
+        print(f"  [Stage: {checkpoint.get('stage', 'unknown')}]")
+        return checkpoint
+    except (json.JSONDecodeError, IOError) as e:
+        print(f"  [Warning: Could not load checkpoint: {e}]")
+        return None
+
+
+def clear_checkpoint():
+    """Remove checkpoint file after successful completion."""
+    if CHECKPOINT_FILE.exists():
+        CHECKPOINT_FILE.unlink()
+        print("  [Checkpoint cleared]")
 
 # Function words (same as v3)
 FUNCTION_WORDS = [
@@ -75,8 +119,8 @@ FUNCTION_WORDS = [
     "have", "has", "had", "having",
     "do", "does", "did", "doing",
     "will", "would", "shall", "should", "may", "might", "must", "can", "could",
-    "not", "no", "never", "neither", "nor",
-    "now", "then", "here", "there", "how",
+    "not", "no", "never", "neither",  # "nor" already in conjunctions above
+    "now", "here", "there", "how",  # "then" already in conjunctions above
     "all", "each", "every", "both", "few", "more", "most", "other",
     "some", "any", "such", "only", "also", "very", "just", "even",
     "again", "ever", "still", "already",
@@ -546,11 +590,12 @@ def run_single_variant(blocks: list, variant_config: dict,
 
 def run_permutation_for_variant(blocks: list, variant_config: dict,
                                  perm_mapping: dict,
-                                 precomputed_indices: dict) -> float:
+                                 precomputed_indices: dict) -> float | None:
     """
     Run CV with permuted labels for a single variant.
 
     Uses same pre-computed indices for reproducibility.
+    Returns None if CV fails (tracked separately from valid 0.0 scores).
     """
     # Build run data
     run_data = build_run_data_from_indices(
@@ -558,7 +603,7 @@ def run_permutation_for_variant(blocks: list, variant_config: dict,
     )
 
     if len(run_data["runs"]) < 4:
-        return 0.0
+        return None  # Not enough runs for valid CV
 
     # Apply permutation to run voices
     permuted_run_voices = {
@@ -585,28 +630,27 @@ def run_permutation_for_variant(blocks: list, variant_config: dict,
         alternate_sign=False
     )
 
-    try:
-        result = leave_one_run_out_cv(
-            run_data,
-            feature_type=variant_config["feature_type"],
-            classifier=variant_config["classifier"],
-            hashing_vectorizer=hashing_vectorizer
-        )
-        return result["run_weighted_balanced_accuracy"] or 0.0
-    except Exception:
-        return 0.0
+    result = leave_one_run_out_cv(
+        run_data,
+        feature_type=variant_config["feature_type"],
+        classifier=variant_config["classifier"],
+        hashing_vectorizer=hashing_vectorizer
+    )
+    return result["run_weighted_balanced_accuracy"]
 
 
 def run_max_statistic_permutation_test(blocks: list, variants: dict,
                                         observed_scores: dict,
                                         variant_indices: dict,
                                         master_voice_runs: dict,
-                                        n_permutations: int) -> dict:
+                                        n_permutations: int,
+                                        checkpoint: dict = None) -> dict:
     """
     Run max-statistic permutation test across all variants.
 
     Same permutation applied to all variants for valid maxT correction.
     Uses corrected p-value formula: (1 + sum) / (1 + B)
+    Supports checkpointing for resumption after interruption.
     """
     print(f"  Running max-statistic permutation test ({n_permutations} permutations)...")
 
@@ -617,25 +661,65 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
     # Observed max
     observed_max = max(observed_scores.values())
 
-    # Track permutation results
+    # Initialize or restore from checkpoint
+    start_idx = 0
     perm_max_scores = []
     perm_variant_scores = {vid: [] for vid in variants.keys()}
+    n_failed_perms = 0
+
+    if checkpoint and checkpoint.get("stage") == "permutations":
+        start_idx = checkpoint.get("perm_index", 0)
+        perm_max_scores = checkpoint.get("perm_max_scores", [])
+        perm_variant_scores = checkpoint.get("perm_variant_scores", {vid: [] for vid in variants.keys()})
+        n_failed_perms = checkpoint.get("n_failed_perms", 0)
+        print(f"  Resuming from permutation {start_idx}...")
 
     for i, perm_mapping in enumerate(perms):
-        if (i + 1) % 1000 == 0:
+        # Skip already-completed permutations
+        if i < start_idx:
+            continue
+
+        if (i + 1) % 100 == 0:
             print(f"    Permutation {i+1}/{len(perms)}...")
 
         # Compute score for each variant under this permutation
         variant_scores = {}
+        perm_failed = False
         for vid, vconfig in variants.items():
-            score = run_permutation_for_variant(
-                blocks, vconfig, perm_mapping, variant_indices[vid]
-            )
-            variant_scores[vid] = score
-            perm_variant_scores[vid].append(score)
+            if vid not in observed_scores:
+                continue  # Skip variants that failed in primary analysis
+            try:
+                score = run_permutation_for_variant(
+                    blocks, vconfig, perm_mapping, variant_indices[vid]
+                )
+                if score is None:
+                    perm_failed = True
+                    break
+                variant_scores[vid] = score
+                perm_variant_scores[vid].append(score)
+            except Exception as e:
+                # Log but don't crash - track failure
+                perm_failed = True
+                break
+
+        if perm_failed or not variant_scores:
+            n_failed_perms += 1
+            continue  # Skip this permutation entirely if any variant failed
 
         # Record max across variants
         perm_max_scores.append(max(variant_scores.values()))
+
+        # Checkpoint every CHECKPOINT_INTERVAL permutations
+        if (i + 1) % CHECKPOINT_INTERVAL == 0:
+            save_checkpoint({
+                "stage": "permutations",
+                "perm_index": i + 1,
+                "perm_max_scores": perm_max_scores,
+                "perm_variant_scores": perm_variant_scores,
+                "observed_scores": observed_scores,
+                "observed_max": observed_max,
+                "n_failed_perms": n_failed_perms,
+            })
 
     perm_max_scores = np.array(perm_max_scores)
 
@@ -644,9 +728,14 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
     corrected_p = (1 + n_exceed) / (1 + len(perms))
 
     # Per-variant uncorrected p-values (also corrected formula)
+    # Only compute for variants that have observed scores
     uncorrected_p = {}
     for vid in variants.keys():
-        scores = np.array(perm_variant_scores[vid])
+        if vid not in observed_scores:
+            continue  # Skip failed variants
+        scores = np.array(perm_variant_scores.get(vid, []))
+        if len(scores) == 0:
+            continue
         n_exceed_v = np.sum(scores >= observed_scores[vid])
         uncorrected_p[vid] = (1 + n_exceed_v) / (1 + len(scores))
 
@@ -654,9 +743,15 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
     # p_adj_i = Pr(max_j T_perm_j >= T_obs_i)
     adjusted_p = {}
     for vid in variants.keys():
+        if vid not in observed_scores:
+            continue  # Skip failed variants
         obs_score = observed_scores[vid]
         n_exceed_adj = np.sum(perm_max_scores >= obs_score)
         adjusted_p[vid] = (1 + n_exceed_adj) / (1 + len(perm_max_scores))
+
+    # Report stats
+    n_successful = len(perm_max_scores)
+    print(f"  Completed: {n_successful} successful, {n_failed_perms} failed permutations")
 
     return {
         "corrected_p_value": corrected_p,
@@ -666,7 +761,9 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
         "null_max_mean": float(np.mean(perm_max_scores)),
         "null_max_std": float(np.std(perm_max_scores)),
         "null_max_95_percentile": float(np.percentile(perm_max_scores, 95)),
-        "n_permutations": len(perms)
+        "n_permutations_requested": len(perms),
+        "n_permutations_successful": n_successful,
+        "n_permutations_failed": n_failed_perms
     }
 
 
@@ -834,6 +931,9 @@ def main():
     random.seed(RANDOM_SEED)
     np.random.seed(RANDOM_SEED)
 
+    # Check for existing checkpoint
+    checkpoint = load_checkpoint()
+
     # Load data
     print(f"Loading blocks from {INPUT_FILE}...")
     data = load_blocks(INPUT_FILE)
@@ -895,42 +995,66 @@ def main():
             target_size=vconfig["target_size"],
             include_quotes=vconfig["include_quotes"],
             max_blocks_per_run=MAX_BLOCKS_PER_RUN,
-            seed=RANDOM_SEED + hash(vid) % 1000  # Variant-specific but deterministic
+            seed=RANDOM_SEED + int(hashlib.sha256(vid.encode()).hexdigest()[:8], 16) % 1000  # Deterministic across processes
         )
         variant_indices[vid] = indices
         print(f"  {vid}: {len(indices)} runs, {sum(len(v) for v in indices.values())} blocks")
 
-    # Run each variant
+    # Run each variant (or restore from checkpoint)
     print("\nRunning variants...")
     variant_results = {}
     observed_scores = {}
-    master_voice_runs = None  # Will use first valid variant's voice_runs
+    master_voice_runs = None
 
-    for vid, vconfig in variants.items():
-        print(f"\n  {vid}: {vconfig['description']}...")
-        result = run_single_variant(blocks, vconfig, variant_indices[vid])
-        variant_results[vid] = result
+    # Check if we can restore variant results from checkpoint
+    if checkpoint and checkpoint.get("stage") in ["variants_complete", "permutations"]:
+        variant_results = checkpoint.get("variant_results", {})
+        observed_scores = checkpoint.get("observed_scores", {})
+        master_voice_runs = checkpoint.get("master_voice_runs")
+        print(f"  Restored {len(variant_results)} variant results from checkpoint")
+    else:
+        # Run variants fresh
+        for vid, vconfig in variants.items():
+            print(f"\n  {vid}: {vconfig['description']}...")
+            result = run_single_variant(blocks, vconfig, variant_indices[vid])
+            variant_results[vid] = result
 
-        if result["accuracy"] is not None:
-            observed_scores[vid] = result["accuracy"]
-            print(f"    Accuracy: {result['accuracy']:.1%}")
-            print(f"    Runs: {result['n_runs']}, Blocks: {result['n_blocks']}, Features: {result['n_features']}")
+            if result["accuracy"] is not None:
+                observed_scores[vid] = result["accuracy"]
+                print(f"    Accuracy: {result['accuracy']:.1%}")
+                print(f"    Runs: {result['n_runs']}, Blocks: {result['n_blocks']}, Features: {result['n_features']}")
 
-            # Use first valid variant's voice_runs as master
-            if master_voice_runs is None:
-                master_voice_runs = result.get("voice_runs", {})
-        else:
-            print(f"    ERROR: {result.get('error', 'Unknown')}")
+                # Use first valid variant's voice_runs as master
+                if master_voice_runs is None:
+                    master_voice_runs = result.get("voice_runs", {})
+            else:
+                print(f"    ERROR: {result.get('error', 'Unknown')}")
+
+        # Checkpoint after all variants complete
+        if master_voice_runs:
+            # Clean variant_results for JSON serialization
+            clean_variant_results = {
+                vid: {k: v for k, v in vres.items()
+                      if k not in ["precomputed_indices", "voice_runs", "run_voices"]}
+                for vid, vres in variant_results.items()
+            }
+            save_checkpoint({
+                "stage": "variants_complete",
+                "variant_results": clean_variant_results,
+                "observed_scores": observed_scores,
+                "master_voice_runs": master_voice_runs,
+            })
 
     if not master_voice_runs:
         print("ERROR: No valid variants to run permutation test")
         return
 
-    # Run max-statistic permutation test
+    # Run max-statistic permutation test (with checkpoint support)
     print("\n" + "=" * 70)
+    perm_checkpoint = checkpoint if checkpoint and checkpoint.get("stage") == "permutations" else None
     perm_results = run_max_statistic_permutation_test(
         blocks, variants, observed_scores, variant_indices,
-        master_voice_runs, N_PERMUTATIONS
+        master_voice_runs, N_PERMUTATIONS, perm_checkpoint
     )
 
     print(f"\n  Corrected p-value: {perm_results['corrected_p_value']:.4f}")
@@ -991,6 +1115,12 @@ def main():
         print("  → Investigate signal source (Phase 2.B)")
 
     print(f"\nFull report: {REPORT_FILE}")
+
+    # Clear checkpoint after successful completion
+    clear_checkpoint()
+    print("\n" + "=" * 70)
+    print("ANALYSIS COMPLETE")
+    print("=" * 70)
 
     return results
 
