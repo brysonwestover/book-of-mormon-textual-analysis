@@ -1,0 +1,16 @@
+{
+  "name": "late-war",
+  "author": "Gilbert Hunt",
+  "source_type": "pseudo-archaic",
+  "description": "The Late War (1816) - KJV-style pseudo-biblical narrative",
+  "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/late-war/late-war-raw.txt",
+  "input_hash": "fd35974d110586a459bbeb092b6229b4f89c1a65ddaa578bd057a51df7c99a38",
+  "input_words": 59611,
+  "clean_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/late-war/late-war-clean.txt",
+  "clean_hash": "022ec4f83e63871de4354acaae2965b23012c972e47a48bde250d1e6bb66cbce",
+  "clean_words": 56636,
+  "segments_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/late-war/late-war-segments.json",
+  "segment_count": 57,
+  "segment_size": 1000,
+  "processed_at": "2026-02-02T00:30:01.754476+00:00"
+}

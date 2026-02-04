@@ -1,0 +1,16 @@
+{
+  "name": "josephus",
+  "author": "William Whiston (translator)",
+  "source_type": "single-translator",
+  "description": "Antiquities of the Jews - single translator, multiple source books",
+  "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/josephus/josephus-antiquities-raw.txt",
+  "input_hash": "79b90fe366057b8f3fd0bfe84f0e041cf2db7bb86b8029625d603b7ccee75076",
+  "input_words": 549192,
+  "clean_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/josephus/josephus-clean.txt",
+  "clean_hash": "ab03ebb56a20f0b14e43c20c4e5f3f80093e345d84b375ad91c591a8245c9c5a",
+  "clean_words": 546148,
+  "segments_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/josephus/josephus-segments.json",
+  "segment_count": 546,
+  "segment_size": 1000,
+  "processed_at": "2026-02-02T00:30:01.987619+00:00"
+}

@@ -1,0 +1,166 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-02T05:53:07.425039+00:00",
+    "n_samples": 244,
+    "n_features": 171
+  },
+  "unmasking": {
+    "iterations": [
+      {
+        "iteration": 0,
+        "features_remaining": 171,
+        "balanced_accuracy": 0.20119208277103012,
+        "macro_f1": 0.22412280701754383
+      },
+      {
+        "iteration": 1,
+        "features_remaining": 166,
+        "balanced_accuracy": 0.16464237516869096,
+        "macro_f1": 0.17562724014336917
+      },
+      {
+        "iteration": 2,
+        "features_remaining": 161,
+        "balanced_accuracy": 0.12089518668466037,
+        "macro_f1": 0.13495092693565974
+      },
+      {
+        "iteration": 3,
+        "features_remaining": 156,
+        "balanced_accuracy": 0.11943319838056679,
+        "macro_f1": 0.13267246061922866
+      },
+      {
+        "iteration": 4,
+        "features_remaining": 151,
+        "balanced_accuracy": 0.11212325686009897,
+        "macro_f1": 0.12151336917692057
+      },
+      {
+        "iteration": 5,
+        "features_remaining": 146,
+        "balanced_accuracy": 0.10919928025191183,
+        "macro_f1": 0.11892266746635678
+      },
+      {
+        "iteration": 6,
+        "features_remaining": 141,
+        "balanced_accuracy": 0.09053081421502474,
+        "macro_f1": 0.09949252136752137
+      },
+      {
+        "iteration": 7,
+        "features_remaining": 136,
+        "balanced_accuracy": 0.08614484930274403,
+        "macro_f1": 0.09354644912413837
+      },
+      {
+        "iteration": 8,
+        "features_remaining": 131,
+        "balanced_accuracy": 0.0788349077822762,
+        "macro_f1": 0.08488192024777391
+      },
+      {
+        "iteration": 9,
+        "features_remaining": 126,
+        "balanced_accuracy": 0.06219073324336482,
+        "macro_f1": 0.06800369567987766
+      }
+    ],
+    "interpretation": "No initial separation to unmask (started at/below chance)"
+  },
+  "pairwise": {
+    "MORMON_vs_NEPHI": {
+      "n_samples": 210,
+      "n_voice1": 171,
+      "n_voice2": 39,
+      "accuracy": 0.7666666666666667,
+      "balanced_accuracy": 0.6587944219523166,
+      "baseline": 0.5
+    },
+    "MORMON_vs_MORONI": {
+      "n_samples": 193,
+      "n_voice1": 171,
+      "n_voice2": 22,
+      "accuracy": 0.5129533678756477,
+      "balanced_accuracy": 0.3092769803296119,
+      "baseline": 0.5
+    },
+    "MORMON_vs_JACOB": {
+      "n_samples": 183,
+      "n_voice1": 171,
+      "n_voice2": 12,
+      "accuracy": 0.9016393442622951,
+      "balanced_accuracy": 0.5211988304093567,
+      "baseline": 0.5
+    },
+    "NEPHI_vs_MORONI": {
+      "n_samples": 61,
+      "n_voice1": 39,
+      "n_voice2": 22,
+      "accuracy": 0.36065573770491804,
+      "balanced_accuracy": 0.28205128205128205,
+      "baseline": 0.5
+    },
+    "NEPHI_vs_JACOB": {
+      "n_samples": 51,
+      "n_voice1": 39,
+      "n_voice2": 12,
+      "accuracy": 0.6078431372549019,
+      "balanced_accuracy": 0.3974358974358974,
+      "baseline": 0.5
+    },
+    "MORONI_vs_JACOB": {
+      "n_samples": 34,
+      "n_voice1": 22,
+      "n_voice2": 12,
+      "accuracy": 0.08823529411764706,
+      "balanced_accuracy": 0.10606060606060605,
+      "baseline": 0.5
+    }
+  },
+  "verification": {
+    "same_narrator_distance_mean": 0.9399568617712664,
+    "same_narrator_distance_std": 0.13384337953606476,
+    "diff_narrator_distance_mean": 0.9964671594789113,
+    "diff_narrator_distance_std": 0.12306055255534405,
+    "cohens_d": 0.439546306361577,
+    "n_same_pairs": 441,
+    "n_diff_pairs": 500,
+    "interpretation": "SMALL effect - weak narrator differentiation"
+  },
+  "consistency": {
+    "by_narrator": {
+      "JACOB": {
+        "n_samples": 12,
+        "mean_within_distance": 0.9099852254233051,
+        "std_within_distance": 0.09350493959692363,
+        "min_within_distance": 0.681420546416202,
+        "max_within_distance": 1.1236502614512247
+      },
+      "MORMON": {
+        "n_samples": 171,
+        "mean_within_distance": 0.9920035883397265,
+        "std_within_distance": 0.13101269075543082,
+        "min_within_distance": 0.4006170652344483,
+        "max_within_distance": 1.3943525343505345
+      },
+      "MORONI": {
+        "n_samples": 22,
+        "mean_within_distance": 0.9533981424751233,
+        "std_within_distance": 0.14565598928295592,
+        "min_within_distance": 0.44982514151505626,
+        "max_within_distance": 1.1989236447485887
+      },
+      "NEPHI": {
+        "n_samples": 39,
+        "mean_within_distance": 0.9140174532755443,
+        "std_within_distance": 0.13448368628822233,
+        "min_within_distance": 0.27921244590135685,
+        "max_within_distance": 1.2823228438524523
+      }
+    },
+    "most_consistent": "JACOB",
+    "least_consistent": "MORMON"
+  }
+}

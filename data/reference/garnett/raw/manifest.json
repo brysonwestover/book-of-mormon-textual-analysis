@@ -1,0 +1,101 @@
+[
+  {
+    "author": "Dostoevsky",
+    "title": "Crime and Punishment",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 2554,
+    "publication_year": 1914,
+    "file_path": "dostoevsky_crime_and_punishment.txt",
+    "word_count": 206544
+  },
+  {
+    "author": "Dostoevsky",
+    "title": "The Brothers Karamazov",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 28054,
+    "publication_year": 1912,
+    "file_path": "dostoevsky_the_brothers_karamazov.txt",
+    "word_count": 353881
+  },
+  {
+    "author": "Dostoevsky",
+    "title": "The Idiot",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 2638,
+    "publication_year": 1913,
+    "file_path": "dostoevsky_the_idiot.txt",
+    "word_count": 244583
+  },
+  {
+    "author": "Dostoevsky",
+    "title": "Notes from Underground",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 600,
+    "publication_year": 1918,
+    "file_path": "dostoevsky_notes_from_underground.txt",
+    "word_count": 47176
+  },
+  {
+    "author": "Tolstoy",
+    "title": "Anna Karenina",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 1399,
+    "publication_year": 1901,
+    "file_path": "tolstoy_anna_karenina.txt",
+    "word_count": 352800
+  },
+  {
+    "author": "Tolstoy",
+    "title": "War and Peace",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 2600,
+    "publication_year": 1904,
+    "file_path": "tolstoy_war_and_peace.txt",
+    "word_count": 566328
+  },
+  {
+    "author": "Chekhov",
+    "title": "The Lady with the Dog and Other Stories",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 13415,
+    "publication_year": 1917,
+    "file_path": "chekhov_the_lady_with_the_dog_and_other_stories.txt",
+    "word_count": 74578
+  },
+  {
+    "author": "Chekhov",
+    "title": "The Darling and Other Stories",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 13416,
+    "publication_year": 1916,
+    "file_path": "chekhov_the_darling_and_other_stories.txt",
+    "word_count": 75378
+  },
+  {
+    "author": "Chekhov",
+    "title": "The Party and Other Stories",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 1945,
+    "publication_year": 1917,
+    "file_path": "chekhov_the_party_and_other_stories.txt",
+    "word_count": 31997
+  },
+  {
+    "author": "Turgenev",
+    "title": "Fathers and Sons",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 30723,
+    "publication_year": 1895,
+    "file_path": "turgenev_fathers_and_sons.txt",
+    "word_count": 77935
+  },
+  {
+    "author": "Turgenev",
+    "title": "A House of Gentlefolk",
+    "translator": "Constance Garnett",
+    "gutenberg_id": 6588,
+    "publication_year": 1894,
+    "file_path": "turgenev_a_house_of_gentlefolk.txt",
+    "word_count": 188093
+  }
+]

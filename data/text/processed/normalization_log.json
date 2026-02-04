@@ -1,0 +1,50 @@
+{
+  "input": {
+    "file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-dehyphenated.txt",
+    "hash_sha256": "227632bc76301c60d76fda64d4d382c742f7cf9fe7faa8dda61ead8c844b0957",
+    "characters": 1461663
+  },
+  "output": {
+    "file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-normalized.txt",
+    "hash_sha256": "6fcae1901d8b5b3e4d02259e6f8c5ace5a5e54b1dae23e1f9f3829b99bae724d",
+    "characters": 1461663
+  },
+  "transformations": {
+    "normalization_form": "NFC",
+    "nfc_changes": 0,
+    "character_replacements": {
+      "U+2018": {
+        "name": "LEFT SINGLE QUOTATION MARK",
+        "replaced_with": "'",
+        "count": 180
+      },
+      "U+2019": {
+        "name": "RIGHT SINGLE QUOTATION MARK",
+        "replaced_with": "'",
+        "count": 100
+      },
+      "U+201C": {
+        "name": "LEFT DOUBLE QUOTATION MARK",
+        "replaced_with": "\"",
+        "count": 44
+      },
+      "U+201D": {
+        "name": "RIGHT DOUBLE QUOTATION MARK",
+        "replaced_with": "\"",
+        "count": 5
+      },
+      "U+2014": {
+        "name": "EM DASH",
+        "replaced_with": "-",
+        "count": 320
+      }
+    }
+  },
+  "environment": {
+    "python_version": "3.12.3 (main, Jan  8 2026, 11:30:50) [GCC 13.3.0]",
+    "platform": "Linux-6.14.0-37-generic-x86_64-with-glibc2.39",
+    "git_commit": "5debefa09173b4be81c8d73de25481a5e6f0f1d5"
+  },
+  "script_version": "1.0.0",
+  "timestamp": "2026-02-02T00:04:51.756261+00:00"
+}

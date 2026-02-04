@@ -1,0 +1,528 @@
+{
+  "preprocessing_runs": [
+    {
+      "output_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean-headers-marked.txt",
+      "stats": {
+        "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/book-of-mormon-1830-replica.txt",
+        "input_hash_sha256": "da8c01d2b89b528b75780dba6bca6d038099d7b083a9b544efda092378b48902",
+        "input_lines": 29550,
+        "input_words": 277070,
+        "output_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean-headers-marked.txt",
+        "output_hash_sha256": "361fa000920748b635f148a7402fff09bfaf8bc0bcac8eaa1214eed718987a8d",
+        "output_lines": 29201,
+        "output_words": 277905,
+        "lines_removed_preface": 43,
+        "lines_removed_toc": 307,
+        "page_headers_found": 574,
+        "page_headers_matched": [
+          {
+            "line_in_content": 199,
+            "line_in_original": 549,
+            "text": "6 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 252,
+            "line_in_original": 602,
+            "text": "FIRST BOOK OF NEPHI. 7"
+          },
+          {
+            "line_in_content": 306,
+            "line_in_original": 656,
+            "text": "8 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 358,
+            "line_in_original": 708,
+            "text": "FIRST BOOK OF NEPHI. 9"
+          },
+          {
+            "line_in_content": 409,
+            "line_in_original": 759,
+            "text": "10 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 460,
+            "line_in_original": 810,
+            "text": "FIRST BOOK OF NEPHI. 11"
+          },
+          {
+            "line_in_content": 513,
+            "line_in_original": 863,
+            "text": "12 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 565,
+            "line_in_original": 915,
+            "text": "FIRST BOOK OF NEPHI. 13"
+          },
+          {
+            "line_in_content": 618,
+            "line_in_original": 968,
+            "text": "14 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 671,
+            "line_in_original": 1021,
+            "text": "FIRST BOOK OF NEPHI. 15"
+          },
+          {
+            "line_in_content": 28328,
+            "line_in_original": 28678,
+            "text": "BOOK OF ETHER. 571"
+          },
+          {
+            "line_in_content": 28377,
+            "line_in_original": 28727,
+            "text": "572 BOOK OF ETHER."
+          },
+          {
+            "line_in_content": 28426,
+            "line_in_original": 28776,
+            "text": "BOOK OF ETHER. 573"
+          },
+          {
+            "line_in_content": 28549,
+            "line_in_original": 28899,
+            "text": "576 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28642,
+            "line_in_original": 28992,
+            "text": "578 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28691,
+            "line_in_original": 29041,
+            "text": "BOOK OF MORONI. 579"
+          },
+          {
+            "line_in_content": 28740,
+            "line_in_original": 29090,
+            "text": "580 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28834,
+            "line_in_original": 29184,
+            "text": "582 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28882,
+            "line_in_original": 29232,
+            "text": "BOOK OF MORONI. 583"
+          },
+          {
+            "line_in_content": 28929,
+            "line_in_original": 29279,
+            "text": "584 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28977,
+            "line_in_original": 29327,
+            "text": "BOOK OF MORONI. 585"
+          },
+          {
+            "line_in_content": 29026,
+            "line_in_original": 29376,
+            "text": "586 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 29074,
+            "line_in_original": 29424,
+            "text": "BOOK OF MORONI. 587"
+          },
+          {
+            "line_in_content": 29122,
+            "line_in_original": 29472,
+            "text": "588 BOOK OF MORONI."
+          }
+        ],
+        "corrections_applied": 3,
+        "corrections_detail": [
+          {
+            "original": "Neput",
+            "corrected": "Nephi",
+            "context": "1 Nephi 1:1 opening",
+            "occurrences": 1,
+            "approximate_line": 530
+          },
+          {
+            "original": "day 5",
+            "corrected": "days",
+            "context": "1 Nephi 1:1 'in the course of my days'",
+            "occurrences": 1,
+            "approximate_line": 532
+          },
+          {
+            "original": "utttered",
+            "corrected": "uttered",
+            "context": "double t error",
+            "occurrences": 1,
+            "approximate_line": null
+          }
+        ],
+        "timestamp": "2026-02-02T00:04:25.344005+00:00",
+        "script_version": "1.2.0"
+      }
+    },
+    {
+      "output_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean.txt",
+      "stats": {
+        "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/book-of-mormon-1830-replica.txt",
+        "input_hash_sha256": "da8c01d2b89b528b75780dba6bca6d038099d7b083a9b544efda092378b48902",
+        "input_lines": 29550,
+        "input_words": 277070,
+        "output_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean.txt",
+        "output_hash_sha256": "83f2985aea5ffdc40f1d639ce1b552a1c004175a27f713789c6a728a683048b1",
+        "output_lines": 28627,
+        "output_words": 273770,
+        "lines_removed_preface": 43,
+        "lines_removed_toc": 307,
+        "page_headers_found": 574,
+        "page_headers_matched": [
+          {
+            "line_in_content": 199,
+            "line_in_original": 549,
+            "text": "6 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 252,
+            "line_in_original": 602,
+            "text": "FIRST BOOK OF NEPHI. 7"
+          },
+          {
+            "line_in_content": 306,
+            "line_in_original": 656,
+            "text": "8 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 358,
+            "line_in_original": 708,
+            "text": "FIRST BOOK OF NEPHI. 9"
+          },
+          {
+            "line_in_content": 409,
+            "line_in_original": 759,
+            "text": "10 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 460,
+            "line_in_original": 810,
+            "text": "FIRST BOOK OF NEPHI. 11"
+          },
+          {
+            "line_in_content": 513,
+            "line_in_original": 863,
+            "text": "12 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 565,
+            "line_in_original": 915,
+            "text": "FIRST BOOK OF NEPHI. 13"
+          },
+          {
+            "line_in_content": 618,
+            "line_in_original": 968,
+            "text": "14 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 671,
+            "line_in_original": 1021,
+            "text": "FIRST BOOK OF NEPHI. 15"
+          },
+          {
+            "line_in_content": 28328,
+            "line_in_original": 28678,
+            "text": "BOOK OF ETHER. 571"
+          },
+          {
+            "line_in_content": 28377,
+            "line_in_original": 28727,
+            "text": "572 BOOK OF ETHER."
+          },
+          {
+            "line_in_content": 28426,
+            "line_in_original": 28776,
+            "text": "BOOK OF ETHER. 573"
+          },
+          {
+            "line_in_content": 28549,
+            "line_in_original": 28899,
+            "text": "576 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28642,
+            "line_in_original": 28992,
+            "text": "578 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28691,
+            "line_in_original": 29041,
+            "text": "BOOK OF MORONI. 579"
+          },
+          {
+            "line_in_content": 28740,
+            "line_in_original": 29090,
+            "text": "580 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28834,
+            "line_in_original": 29184,
+            "text": "582 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28882,
+            "line_in_original": 29232,
+            "text": "BOOK OF MORONI. 583"
+          },
+          {
+            "line_in_content": 28929,
+            "line_in_original": 29279,
+            "text": "584 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28977,
+            "line_in_original": 29327,
+            "text": "BOOK OF MORONI. 585"
+          },
+          {
+            "line_in_content": 29026,
+            "line_in_original": 29376,
+            "text": "586 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 29074,
+            "line_in_original": 29424,
+            "text": "BOOK OF MORONI. 587"
+          },
+          {
+            "line_in_content": 29122,
+            "line_in_original": 29472,
+            "text": "588 BOOK OF MORONI."
+          }
+        ],
+        "corrections_applied": 3,
+        "corrections_detail": [
+          {
+            "original": "Neput",
+            "corrected": "Nephi",
+            "context": "1 Nephi 1:1 opening",
+            "occurrences": 1,
+            "approximate_line": 530
+          },
+          {
+            "original": "day 5",
+            "corrected": "days",
+            "context": "1 Nephi 1:1 'in the course of my days'",
+            "occurrences": 1,
+            "approximate_line": 532
+          },
+          {
+            "original": "utttered",
+            "corrected": "uttered",
+            "context": "double t error",
+            "occurrences": 1,
+            "approximate_line": null
+          }
+        ],
+        "timestamp": "2026-02-02T00:04:25.527547+00:00",
+        "script_version": "1.2.0"
+      }
+    },
+    {
+      "output_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean-no-corrections.txt",
+      "stats": {
+        "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/book-of-mormon-1830-replica.txt",
+        "input_hash_sha256": "da8c01d2b89b528b75780dba6bca6d038099d7b083a9b544efda092378b48902",
+        "input_lines": 29550,
+        "input_words": 277070,
+        "output_file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean-no-corrections.txt",
+        "output_hash_sha256": "e25827762a865cfb875bd84fa67b56548d807411ff25cb5903e52f41f2830288",
+        "output_lines": 28627,
+        "output_words": 273771,
+        "lines_removed_preface": 43,
+        "lines_removed_toc": 307,
+        "page_headers_found": 574,
+        "page_headers_matched": [
+          {
+            "line_in_content": 199,
+            "line_in_original": 549,
+            "text": "6 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 252,
+            "line_in_original": 602,
+            "text": "FIRST BOOK OF NEPHI. 7"
+          },
+          {
+            "line_in_content": 306,
+            "line_in_original": 656,
+            "text": "8 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 358,
+            "line_in_original": 708,
+            "text": "FIRST BOOK OF NEPHI. 9"
+          },
+          {
+            "line_in_content": 409,
+            "line_in_original": 759,
+            "text": "10 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 460,
+            "line_in_original": 810,
+            "text": "FIRST BOOK OF NEPHI. 11"
+          },
+          {
+            "line_in_content": 513,
+            "line_in_original": 863,
+            "text": "12 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 565,
+            "line_in_original": 915,
+            "text": "FIRST BOOK OF NEPHI. 13"
+          },
+          {
+            "line_in_content": 618,
+            "line_in_original": 968,
+            "text": "14 FIRST BOOK OF NEPHI."
+          },
+          {
+            "line_in_content": 671,
+            "line_in_original": 1021,
+            "text": "FIRST BOOK OF NEPHI. 15"
+          },
+          {
+            "line_in_content": 28328,
+            "line_in_original": 28678,
+            "text": "BOOK OF ETHER. 571"
+          },
+          {
+            "line_in_content": 28377,
+            "line_in_original": 28727,
+            "text": "572 BOOK OF ETHER."
+          },
+          {
+            "line_in_content": 28426,
+            "line_in_original": 28776,
+            "text": "BOOK OF ETHER. 573"
+          },
+          {
+            "line_in_content": 28549,
+            "line_in_original": 28899,
+            "text": "576 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28642,
+            "line_in_original": 28992,
+            "text": "578 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28691,
+            "line_in_original": 29041,
+            "text": "BOOK OF MORONI. 579"
+          },
+          {
+            "line_in_content": 28740,
+            "line_in_original": 29090,
+            "text": "580 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28834,
+            "line_in_original": 29184,
+            "text": "582 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28882,
+            "line_in_original": 29232,
+            "text": "BOOK OF MORONI. 583"
+          },
+          {
+            "line_in_content": 28929,
+            "line_in_original": 29279,
+            "text": "584 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 28977,
+            "line_in_original": 29327,
+            "text": "BOOK OF MORONI. 585"
+          },
+          {
+            "line_in_content": 29026,
+            "line_in_original": 29376,
+            "text": "586 BOOK OF MORONI."
+          },
+          {
+            "line_in_content": 29074,
+            "line_in_original": 29424,
+            "text": "BOOK OF MORONI. 587"
+          },
+          {
+            "line_in_content": 29122,
+            "line_in_original": 29472,
+            "text": "588 BOOK OF MORONI."
+          }
+        ],
+        "corrections_applied": 0,
+        "corrections_detail": [],
+        "timestamp": "2026-02-02T00:04:25.696575+00:00",
+        "script_version": "1.2.0"
+      }
+    }
+  ],
+  "removed_blocks": {
+    "preface": {
+      "file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/removed-modern-preface.txt",
+      "lines": "1-43",
+      "hash_sha256": "712aafc6477a485266fe08d093ebc6c73031727cf2af90ce637ee6ce20c627b7"
+    },
+    "toc": {
+      "file": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/removed-garbled-toc.txt",
+      "lines": "44-350",
+      "hash_sha256": "dc8e3545da4604c363f90ec5e723317d531656639008df84326fc439af3c651a"
+    }
+  },
+  "configuration": {
+    "modern_preface_end_line": 43,
+    "toc_end_line": 350,
+    "content_start_line": 351,
+    "known_corrections": [
+      {
+        "wrong": "Neput",
+        "correct": "Nephi",
+        "context": "1 Nephi 1:1 opening"
+      },
+      {
+        "wrong": "day 5",
+        "correct": "days",
+        "context": "1 Nephi 1:1 'in the course of my days'"
+      },
+      {
+        "wrong": "utttered",
+        "correct": "uttered",
+        "context": "double t error"
+      }
+    ],
+    "page_header_patterns": [
+      "^\\d+\\s+(?:FIRST |SECOND |THIRD |FOURTH )?BOOK OF (?:NEPHI|MORMON|ALMA|MOSIAH|JACOB|ENOS|JAROM|OMNI|HELAMAN|ETHER|MORONI)\\.*\\s*$",
+      "^(?:FIRST |SECOND |THIRD |FOURTH )?BOOK OF (?:NEPHI|MORMON|ALMA|MOSIAH|JACOB|ENOS|JAROM|OMNI|HELAMAN|ETHER|MORONI)\\.*\\s+\\d+\\s*$",
+      "^\\d+\\s+WORDS OF MORMON\\.*\\s*$",
+      "^WORDS OF MORMON\\.*\\s+\\d+\\s*$"
+    ]
+  },
+  "environment": {
+    "python_version": "3.12.3 (main, Jan  8 2026, 11:30:50) [GCC 13.3.0]",
+    "platform": "Linux-6.14.0-37-generic-x86_64-with-glibc2.39",
+    "system": "Linux",
+    "machine": "x86_64",
+    "locale": [
+      "en_US",
+      "UTF-8"
+    ],
+    "encoding": "utf-8",
+    "script_path": "/home/bryson/book-of-mormon-textual-analysis/scripts/preprocess_1830.py",
+    "git_commit": "5debefa09173b4be81c8d73de25481a5e6f0f1d5"
+  },
+  "script_version": "1.2.0"
+}

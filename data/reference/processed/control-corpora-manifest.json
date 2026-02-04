@@ -1,0 +1,124 @@
+{
+  "manifest_version": "1.0.0",
+  "generated": "2026-02-02T00:30:02.036616+00:00",
+  "script_version": "1.0.0",
+  "git_commit": "5debefa09173b4be81c8d73de25481a5e6f0f1d5",
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.14.0-37-generic-x86_64-with-glibc2.39"
+  },
+  "corpora": [
+    {
+      "name": "finney",
+      "author": "Charles Finney",
+      "source_type": "single-author",
+      "description": "Lectures on Revivals of Religion (1835) - single 19th-c author baseline",
+      "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/finney/finney-revivals-raw.txt",
+      "input_hash": "b92b84dfee51a52ff9e2f99f7737bb61fb1895a7ebcce5182002a0677c2f7f7e",
+      "input_words": 202781,
+      "clean_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/finney/finney-clean.txt",
+      "clean_hash": "d741bef90bada7c5c329b64bbe154875533d5e63a2e981b1a962ba7dbf2d64ce",
+      "clean_words": 202757,
+      "segments_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/finney/finney-segments.json",
+      "segment_count": 203,
+      "segment_size": 1000,
+      "processed_at": "2026-02-02T00:30:01.700807+00:00"
+    },
+    {
+      "name": "late-war",
+      "author": "Gilbert Hunt",
+      "source_type": "pseudo-archaic",
+      "description": "The Late War (1816) - KJV-style pseudo-biblical narrative",
+      "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/late-war/late-war-raw.txt",
+      "input_hash": "fd35974d110586a459bbeb092b6229b4f89c1a65ddaa578bd057a51df7c99a38",
+      "input_words": 59611,
+      "clean_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/late-war/late-war-clean.txt",
+      "clean_hash": "022ec4f83e63871de4354acaae2965b23012c972e47a48bde250d1e6bb66cbce",
+      "clean_words": 56636,
+      "segments_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/late-war/late-war-segments.json",
+      "segment_count": 57,
+      "segment_size": 1000,
+      "processed_at": "2026-02-02T00:30:01.754476+00:00"
+    },
+    {
+      "name": "josephus",
+      "author": "William Whiston (translator)",
+      "source_type": "single-translator",
+      "description": "Antiquities of the Jews - single translator, multiple source books",
+      "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/josephus/josephus-antiquities-raw.txt",
+      "input_hash": "79b90fe366057b8f3fd0bfe84f0e041cf2db7bb86b8029625d603b7ccee75076",
+      "input_words": 549192,
+      "clean_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/josephus/josephus-clean.txt",
+      "clean_hash": "ab03ebb56a20f0b14e43c20c4e5f3f80093e345d84b375ad91c591a8245c9c5a",
+      "clean_words": 546148,
+      "segments_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/josephus/josephus-segments.json",
+      "segment_count": 546,
+      "segment_size": 1000,
+      "processed_at": "2026-02-02T00:30:01.987619+00:00"
+    },
+    {
+      "name": "kjv",
+      "source_type": "multi-author",
+      "description": "KJV Bible - selected books with different traditional authors",
+      "books": {
+        "Genesis": {
+          "author": "Moses (traditional)",
+          "words": 38262
+        },
+        "Psalms": {
+          "author": "David/Multiple (traditional)",
+          "words": 42682
+        },
+        "Proverbs": {
+          "author": "Solomon (traditional)",
+          "words": 15038
+        },
+        "Isaiah": {
+          "author": "Isaiah (traditional)",
+          "words": 37036
+        },
+        "Matthew": {
+          "author": "Matthew (traditional)",
+          "words": 23684
+        },
+        "John": {
+          "author": "John (traditional)",
+          "words": 19094
+        },
+        "Romans": {
+          "author": "Paul (traditional)",
+          "words": 9422
+        },
+        "Hebrews": {
+          "author": "Unknown/Paul? (traditional)",
+          "words": 6897
+        }
+      },
+      "total_words": 192115,
+      "segment_count": 192,
+      "processed_at": "2026-02-02T00:30:02.035183+00:00"
+    }
+  ],
+  "summary": {
+    "total_corpora": 4,
+    "total_segments": 998,
+    "by_type": {
+      "single-author": {
+        "count": 1,
+        "segments": 203
+      },
+      "pseudo-archaic": {
+        "count": 1,
+        "segments": 57
+      },
+      "single-translator": {
+        "count": 1,
+        "segments": 546
+      },
+      "multi-author": {
+        "count": 1,
+        "segments": 192
+      }
+    }
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "manifest_version": "1.0.0",
+  "generated": "2026-02-02T00:04:58.772334+00:00",
+  "generator": "scripts/generate_manifest.py",
+  "git_commit": "5debefa09173b4be81c8d73de25481a5e6f0f1d5",
+  "environment": {
+    "python_version": "3.12.3",
+    "platform": "Linux-6.14.0-37-generic-x86_64-with-glibc2.39"
+  },
+  "dependencies": {
+    "note": "All scripts use Python standard library only",
+    "python_minimum": "3.10",
+    "external_packages": []
+  },
+  "artifacts": {
+    "inputs": {
+      "book-of-mormon-1830-replica.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/book-of-mormon-1830-replica.txt",
+        "exists": true,
+        "hash_sha256": "da8c01d2b89b528b75780dba6bca6d038099d7b083a9b544efda092378b48902",
+        "size_bytes": 1490949,
+        "modified": "2026-02-01T22:55:25.774045+00:00",
+        "parent": null,
+        "generator": "Archive.org download"
+      },
+      "book-of-mormon-1830-gutenberg.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/book-of-mormon-1830-gutenberg.txt",
+        "exists": true,
+        "hash_sha256": "94e57fec8b145ab41f7c31cbf94a91b640b7c5b25b66ffeda57c7cca91a1c1c4",
+        "size_bytes": 1518962,
+        "modified": "2026-02-01T22:52:25.370984+00:00",
+        "parent": null,
+        "generator": "Project Gutenberg download"
+      },
+      "book-of-mormon-modern-lds.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/book-of-mormon-modern-lds.txt",
+        "exists": true,
+        "hash_sha256": "1253158ebdc31fa410245382e7b11a3a5d75ae30f03e45fca360a92d5d35b1cc",
+        "size_bytes": 1519231,
+        "modified": "2026-02-01T23:41:16.800976+00:00",
+        "parent": null,
+        "generator": "scriptures.nephi.org extraction"
+      }
+    },
+    "processed": {
+      "bom-1830-clean.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean.txt",
+        "exists": true,
+        "hash_sha256": "83f2985aea5ffdc40f1d639ce1b552a1c004175a27f713789c6a728a683048b1",
+        "size_bytes": 1472528,
+        "modified": "2026-02-02T00:04:25.457192+00:00",
+        "parent": "book-of-mormon-1830-replica.txt",
+        "generator": "preprocess_1830.py"
+      },
+      "bom-1830-clean-headers-marked.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean-headers-marked.txt",
+        "exists": true,
+        "hash_sha256": "361fa000920748b635f148a7402fff09bfaf8bc0bcac8eaa1214eed718987a8d",
+        "size_bytes": 1496736,
+        "modified": "2026-02-02T00:04:25.307160+00:00",
+        "parent": "book-of-mormon-1830-replica.txt",
+        "generator": "preprocess_1830.py"
+      },
+      "bom-1830-clean-no-corrections.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-clean-no-corrections.txt",
+        "exists": true,
+        "hash_sha256": "e25827762a865cfb875bd84fa67b56548d807411ff25cb5903e52f41f2830288",
+        "size_bytes": 1472530,
+        "modified": "2026-02-02T00:04:25.658424+00:00",
+        "parent": "book-of-mormon-1830-replica.txt",
+        "generator": "preprocess_1830.py"
+      },
+      "bom-1830-dehyphenated.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-dehyphenated.txt",
+        "exists": true,
+        "hash_sha256": "227632bc76301c60d76fda64d4d382c742f7cf9fe7faa8dda61ead8c844b0957",
+        "size_bytes": 1462969,
+        "modified": "2026-02-02T00:04:43.884834+00:00",
+        "parent": "bom-1830-clean.txt",
+        "generator": "dehyphenate.py"
+      },
+      "bom-1830-normalized.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/bom-1830-normalized.txt",
+        "exists": true,
+        "hash_sha256": "6fcae1901d8b5b3e4d02259e6f8c5ace5a5e54b1dae23e1f9f3829b99bae724d",
+        "size_bytes": 1461671,
+        "modified": "2026-02-02T00:04:51.742680+00:00",
+        "parent": "bom-1830-dehyphenated.txt",
+        "generator": "normalize_unicode.py"
+      },
+      "removed-modern-preface.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/removed-modern-preface.txt",
+        "exists": true,
+        "hash_sha256": "712aafc6477a485266fe08d093ebc6c73031727cf2af90ce637ee6ce20c627b7",
+        "size_bytes": 1379,
+        "modified": "2026-02-02T00:04:25.702517+00:00",
+        "parent": "book-of-mormon-1830-replica.txt",
+        "generator": "preprocess_1830.py"
+      },
+      "removed-garbled-toc.txt": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/removed-garbled-toc.txt",
+        "exists": true,
+        "hash_sha256": "dc8e3545da4604c363f90ec5e723317d531656639008df84326fc439af3c651a",
+        "size_bytes": 4886,
+        "modified": "2026-02-02T00:04:25.704500+00:00",
+        "parent": "book-of-mormon-1830-replica.txt",
+        "generator": "preprocess_1830.py"
+      }
+    },
+    "logs": {
+      "preprocessing_log.json": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/preprocessing_log.json",
+        "exists": true,
+        "hash_sha256": "a76abfe839a93130e08f0dc25c43facdc132006aad62347801d38ba7c7d1a636",
+        "size_bytes": 16597,
+        "modified": "2026-02-02T00:04:25.709262+00:00",
+        "parent": null,
+        "generator": null
+      },
+      "dehyphenation_log.json": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/dehyphenation_log.json",
+        "exists": true,
+        "hash_sha256": "5b851d8571534bb59d489e1fbc52333b01967c62a9e884e8ffa6d389ca6a440c",
+        "size_bytes": 554043,
+        "modified": "2026-02-02T00:04:43.942825+00:00",
+        "parent": null,
+        "generator": null
+      },
+      "normalization_log.json": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/data/text/processed/normalization_log.json",
+        "exists": true,
+        "hash_sha256": "705356af749b9695ddd1d255e57ee224bc8b61bf495d8737896a3ceb1cd44943",
+        "size_bytes": 1502,
+        "modified": "2026-02-02T00:04:51.756886+00:00",
+        "parent": null,
+        "generator": null
+      }
+    },
+    "scripts": {
+      "preprocess_1830.py": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/scripts/preprocess_1830.py",
+        "exists": true,
+        "hash_sha256": "384cfd55eff78c58eac75b9f4fc25c1414a9edc2d6db45146de49d61d7a866eb",
+        "size_bytes": 14025,
+        "modified": "2026-02-02T00:03:02.523630+00:00",
+        "parent": null,
+        "generator": null
+      },
+      "dehyphenate.py": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/scripts/dehyphenate.py",
+        "exists": true,
+        "hash_sha256": "e5892742773868f54e110d9d788383ee67ba9590e81b8d7f2f07f9e9f63a82d5",
+        "size_bytes": 9135,
+        "modified": "2026-02-01T23:55:34.642034+00:00",
+        "parent": null,
+        "generator": null
+      },
+      "normalize_unicode.py": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/scripts/normalize_unicode.py",
+        "exists": true,
+        "hash_sha256": "be6c2e3c3e08e5acd677b06087c95380d56e0782e0a36a483cbe0c005dc9639c",
+        "size_bytes": 5574,
+        "modified": "2026-02-02T00:03:26.137198+00:00",
+        "parent": null,
+        "generator": null
+      },
+      "generate_manifest.py": {
+        "path": "/home/bryson/book-of-mormon-textual-analysis/scripts/generate_manifest.py",
+        "exists": true,
+        "hash_sha256": "ce0bac5f64dd13485ef8a1a3e013a6872c2d71811cc4b10a795069356da26e7b",
+        "size_bytes": 6982,
+        "modified": "2026-02-02T00:04:15.009066+00:00",
+        "parent": null,
+        "generator": null
+      }
+    }
+  },
+  "provenance_chain": [
+    {
+      "step": 1,
+      "input": "book-of-mormon-1830-replica.txt",
+      "output": [
+        "bom-1830-clean.txt",
+        "bom-1830-clean-headers-marked.txt",
+        "bom-1830-clean-no-corrections.txt",
+        "removed-modern-preface.txt",
+        "removed-garbled-toc.txt"
+      ],
+      "script": "preprocess_1830.py",
+      "log": "preprocessing_log.json"
+    },
+    {
+      "step": 2,
+      "input": "bom-1830-clean.txt",
+      "output": [
+        "bom-1830-dehyphenated.txt"
+      ],
+      "script": "dehyphenate.py",
+      "log": "dehyphenation_log.json"
+    },
+    {
+      "step": 3,
+      "input": "bom-1830-dehyphenated.txt",
+      "output": [
+        "bom-1830-normalized.txt"
+      ],
+      "script": "normalize_unicode.py",
+      "log": "normalization_log.json"
+    }
+  ]
+}

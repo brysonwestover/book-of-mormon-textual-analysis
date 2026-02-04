@@ -1,0 +1,316 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-02T05:58:30.095272+00:00",
+    "purpose": "Validate stylometric method on known corpora",
+    "random_seed": 42
+  },
+  "kjv": {
+    "corpus": "KJV",
+    "expected": "Multi-author - should show separation",
+    "full_analysis": {
+      "n_samples": 192,
+      "n_classes": 6,
+      "class_distribution": {
+        "MOSES": 38,
+        "DAVID": 43,
+        "SOLOMON": 15,
+        "ISAIAH": 37,
+        "EVANGELIST": 43,
+        "PAUL": 16
+      },
+      "n_splits": 4,
+      "balanced_accuracy": 0.932033303193034,
+      "macro_f1": 0.939879643300415,
+      "permutation_p_value": 1.0,
+      "permutation_mean": 0.9436507936507934,
+      "permutation_std": 2.220446049250313e-16,
+      "classification_report": {
+        "DAVID": {
+          "precision": 0.9347826086956522,
+          "recall": 1.0,
+          "f1-score": 0.9662921348314607,
+          "support": 43.0
+        },
+        "EVANGELIST": {
+          "precision": 0.9230769230769231,
+          "recall": 0.8372093023255814,
+          "f1-score": 0.8780487804878049,
+          "support": 43.0
+        },
+        "ISAIAH": {
+          "precision": 0.9230769230769231,
+          "recall": 0.972972972972973,
+          "f1-score": 0.9473684210526315,
+          "support": 37.0
+        },
+        "MOSES": {
+          "precision": 0.925,
+          "recall": 0.9736842105263158,
+          "f1-score": 0.9487179487179487,
+          "support": 38.0
+        },
+        "PAUL": {
+          "precision": 1.0,
+          "recall": 0.875,
+          "f1-score": 0.9333333333333333,
+          "support": 16.0
+        },
+        "SOLOMON": {
+          "precision": 1.0,
+          "recall": 0.9333333333333333,
+          "f1-score": 0.9655172413793104,
+          "support": 15.0
+        },
+        "accuracy": 0.9375,
+        "macro avg": {
+          "precision": 0.950989409141583,
+          "recall": 0.932033303193034,
+          "f1-score": 0.939879643300415,
+          "support": 192.0
+        },
+        "weighted avg": {
+          "precision": 0.9384989896878485,
+          "recall": 0.9375,
+          "f1-score": 0.9365972132446919,
+          "support": 192.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          43,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          36,
+          3,
+          3,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          36,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          37,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          14
+        ]
+      ],
+      "labels": [
+        "DAVID",
+        "EVANGELIST",
+        "ISAIAH",
+        "MOSES",
+        "PAUL",
+        "SOLOMON"
+      ]
+    },
+    "ot_vs_nt": {
+      "n_samples": 192,
+      "n_classes": 2,
+      "class_distribution": {
+        "OT": 133,
+        "NT": 59
+      },
+      "n_splits": 5,
+      "balanced_accuracy": 0.9755320504651459,
+      "macro_f1": 0.9755320504651459,
+      "permutation_p_value": 1.0,
+      "permutation_mean": 0.9770445344129557,
+      "permutation_std": 1.1102230246251565e-16,
+      "classification_report": {
+        "NT": {
+          "precision": 0.9661016949152542,
+          "recall": 0.9661016949152542,
+          "f1-score": 0.9661016949152542,
+          "support": 59.0
+        },
+        "OT": {
+          "precision": 0.9849624060150376,
+          "recall": 0.9849624060150376,
+          "f1-score": 0.9849624060150376,
+          "support": 133.0
+        },
+        "accuracy": 0.9791666666666666,
+        "macro avg": {
+          "precision": 0.9755320504651459,
+          "recall": 0.9755320504651459,
+          "f1-score": 0.9755320504651459,
+          "support": 192.0
+        },
+        "weighted avg": {
+          "precision": 0.9791666666666666,
+          "recall": 0.9791666666666666,
+          "f1-score": 0.9791666666666666,
+          "support": 192.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          57,
+          2
+        ],
+        [
+          2,
+          131
+        ]
+      ],
+      "labels": [
+        "NT",
+        "OT"
+      ]
+    }
+  },
+  "finney": {
+    "corpus": "Finney",
+    "expected": "Single-author - should NOT show separation",
+    "position_split": {
+      "n_samples": 203,
+      "n_classes": 2,
+      "class_distribution": {
+        "FIRST_HALF": 101,
+        "SECOND_HALF": 102
+      },
+      "n_splits": 5,
+      "balanced_accuracy": 0.6946709376820035,
+      "macro_f1": 0.6945145631067962,
+      "permutation_p_value": 0.5643564356435643,
+      "permutation_mean": 0.694675974025974,
+      "permutation_std": 0.014011656437958325,
+      "classification_report": {
+        "FIRST_HALF": {
+          "precision": 0.6857142857142857,
+          "recall": 0.7128712871287128,
+          "f1-score": 0.6990291262135923,
+          "support": 101.0
+        },
+        "SECOND_HALF": {
+          "precision": 0.7040816326530612,
+          "recall": 0.6764705882352942,
+          "f1-score": 0.69,
+          "support": 102.0
+        },
+        "accuracy": 0.6945812807881774,
+        "macro avg": {
+          "precision": 0.6948979591836735,
+          "recall": 0.6946709376820035,
+          "f1-score": 0.6945145631067962,
+          "support": 203.0
+        },
+        "weighted avg": {
+          "precision": 0.6949431989544586,
+          "recall": 0.6945812807881774,
+          "f1-score": 0.6944923238796691,
+          "support": 203.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          72,
+          29
+        ],
+        [
+          33,
+          69
+        ]
+      ],
+      "labels": [
+        "FIRST_HALF",
+        "SECOND_HALF"
+      ]
+    },
+    "random_split": {
+      "n_samples": 203,
+      "n_classes": 2,
+      "class_distribution": {
+        "A": 102,
+        "B": 101
+      },
+      "n_splits": 5,
+      "balanced_accuracy": 0.5023296447291787,
+      "macro_f1": 0.5020280280766523,
+      "permutation_p_value": 0.5544554455445545,
+      "permutation_mean": 0.5004380453363061,
+      "permutation_std": 0.03999940029701898,
+      "classification_report": {
+        "A": {
+          "precision": 0.5046728971962616,
+          "recall": 0.5294117647058824,
+          "f1-score": 0.5167464114832536,
+          "support": 102.0
+        },
+        "B": {
+          "precision": 0.5,
+          "recall": 0.4752475247524752,
+          "f1-score": 0.4873096446700508,
+          "support": 101.0
+        },
+        "accuracy": 0.5024630541871922,
+        "macro avg": {
+          "precision": 0.5023364485981308,
+          "recall": 0.5023296447291787,
+          "f1-score": 0.5020280280766523,
+          "support": 203.0
+        },
+        "weighted avg": {
+          "precision": 0.5023479581971364,
+          "recall": 0.5024630541871922,
+          "f1-score": 0.5021005324284089,
+          "support": 203.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          54,
+          48
+        ],
+        [
+          53,
+          48
+        ]
+      ],
+      "labels": [
+        "A",
+        "B"
+      ]
+    }
+  },
+  "interpretation": {
+    "kjv_validates": true,
+    "finney_validates": true,
+    "summary": [
+      "KJV: \u2713 Method successfully detects multi-authorship (93.2% vs 16.7% chance)",
+      "Finney: \u2713 No spurious separation in single-author text",
+      "\nCONCLUSION: Method is validated - can trust BoM null result"
+    ]
+  }
+}

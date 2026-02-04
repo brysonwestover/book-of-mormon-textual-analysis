@@ -1,0 +1,16 @@
+# Book of Mormon Textual Analysis - Dependencies
+# Python version: >= 3.10 (tested with 3.12.3)
+
+# LLM API clients
+anthropic>=0.18.0
+openai>=1.10.0
+
+# Utilities
+python-dotenv>=1.0.0
+
+# Optional: for advanced text processing
+# nltk>=3.8.0
+# spacy>=3.7.0
+
+# Note: Preprocessing scripts (preprocess_1830.py, dehyphenate.py,
+# normalize_unicode.py) use Python standard library only.

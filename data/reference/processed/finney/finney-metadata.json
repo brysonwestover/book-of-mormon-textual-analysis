@@ -1,0 +1,16 @@
+{
+  "name": "finney",
+  "author": "Charles Finney",
+  "source_type": "single-author",
+  "description": "Lectures on Revivals of Religion (1835) - single 19th-c author baseline",
+  "input_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/finney/finney-revivals-raw.txt",
+  "input_hash": "b92b84dfee51a52ff9e2f99f7737bb61fb1895a7ebcce5182002a0677c2f7f7e",
+  "input_words": 202781,
+  "clean_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/finney/finney-clean.txt",
+  "clean_hash": "d741bef90bada7c5c329b64bbe154875533d5e63a2e981b1a962ba7dbf2d64ce",
+  "clean_words": 202757,
+  "segments_file": "/home/bryson/book-of-mormon-textual-analysis/data/reference/processed/finney/finney-segments.json",
+  "segment_count": 203,
+  "segment_size": 1000,
+  "processed_at": "2026-02-02T00:30:01.700807+00:00"
+}

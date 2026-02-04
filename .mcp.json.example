@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "openai": {
+      "command": "/path/to/uv",
+      "args": ["run", "/path/to/book-of-mormon-textual-analysis/mcp-openai/server.py"],
+      "env": {
+        "OPENAI_API_KEY": "your-openai-api-key-here"
+      }
+    }
+  }
+}

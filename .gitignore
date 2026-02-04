@@ -1,0 +1,38 @@
+# Environment and secrets
+.env
+.env.local
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+.venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific
+# Don't ignore runs/ - we want to track those
+# Don't ignore data/ - we want to track reference materials
+
+# Copyrighted materials (not redistributable)
+data/reference/copyrighted/
+
+# But do ignore any downloaded API keys or credentials
+credentials/
+secrets/
+.mcp.json

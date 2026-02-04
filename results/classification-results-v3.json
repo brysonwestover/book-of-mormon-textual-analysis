@@ -1,0 +1,382 @@
+{
+  "metadata": {
+    "source_file": "data/text/processed/bom-voice-blocks.json",
+    "generated_at": "2026-02-04T06:44:51.351786+00:00",
+    "script_version": "3.0.0",
+    "methodology": "Run-level inference with restricted group permutation",
+    "random_seed": 42,
+    "max_blocks_per_run": 20,
+    "n_bootstrap": 1000,
+    "n_permutations": 100000
+  },
+  "n_runs": 14,
+  "n_blocks": 244,
+  "n_blocks_capped": 115,
+  "n_features": 169,
+  "run_distribution": {
+    "JACOB": {
+      "n_runs": 3,
+      "n_blocks_orig": 12,
+      "n_blocks_capped": 12
+    },
+    "MORMON": {
+      "n_runs": 4,
+      "n_blocks_orig": 171,
+      "n_blocks_capped": 45
+    },
+    "MORONI": {
+      "n_runs": 2,
+      "n_blocks_orig": 22,
+      "n_blocks_capped": 21
+    },
+    "NEPHI": {
+      "n_runs": 5,
+      "n_blocks_orig": 39,
+      "n_blocks_capped": 37
+    }
+  },
+  "primary": {
+    "run_weighted_balanced_accuracy": 0.24222222222222223,
+    "block_level_accuracy": 0.28695652173913044,
+    "y_true_by_run": {
+      "run_0000": [
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0002": [
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0003": [
+        "JACOB",
+        "JACOB",
+        "JACOB",
+        "JACOB",
+        "JACOB",
+        "JACOB"
+      ],
+      "run_0004": [
+        "NEPHI"
+      ],
+      "run_0006": [
+        "NEPHI",
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0008": [
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0009": [
+        "JACOB",
+        "JACOB",
+        "JACOB",
+        "JACOB"
+      ],
+      "run_0011": [
+        "JACOB",
+        "JACOB"
+      ],
+      "run_0015": [
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON"
+      ],
+      "run_0017": [
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON"
+      ],
+      "run_0019": [
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON"
+      ],
+      "run_0020": [
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI"
+      ],
+      "run_0021": [
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON"
+      ],
+      "run_0022": [
+        "MORONI"
+      ]
+    },
+    "y_pred_by_run": {
+      "run_0000": [
+        "MORMON",
+        "JACOB",
+        "MORMON",
+        "JACOB",
+        "MORMON",
+        "MORONI",
+        "NEPHI",
+        "JACOB",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "NEPHI",
+        "MORMON",
+        "MORONI",
+        "MORMON",
+        "MORMON",
+        "MORONI",
+        "MORONI",
+        "NEPHI"
+      ],
+      "run_0002": [
+        "NEPHI",
+        "MORMON",
+        "JACOB",
+        "MORMON",
+        "JACOB",
+        "NEPHI",
+        "JACOB",
+        "NEPHI"
+      ],
+      "run_0003": [
+        "NEPHI",
+        "MORONI",
+        "NEPHI",
+        "MORONI",
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0004": [
+        "NEPHI"
+      ],
+      "run_0006": [
+        "NEPHI",
+        "NEPHI",
+        "MORMON"
+      ],
+      "run_0008": [
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0009": [
+        "NEPHI",
+        "NEPHI",
+        "MORMON",
+        "MORONI"
+      ],
+      "run_0011": [
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0015": [
+        "MORMON",
+        "MORONI",
+        "MORMON",
+        "MORMON",
+        "MORONI",
+        "MORMON",
+        "MORONI",
+        "MORONI",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "JACOB",
+        "MORONI",
+        "MORMON",
+        "MORMON",
+        "MORONI",
+        "MORMON",
+        "NEPHI",
+        "MORMON",
+        "MORMON"
+      ],
+      "run_0017": [
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORONI",
+        "MORMON",
+        "MORONI",
+        "NEPHI",
+        "NEPHI"
+      ],
+      "run_0019": [
+        "MORMON",
+        "MORMON",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "MORONI",
+        "NEPHI",
+        "MORONI"
+      ],
+      "run_0020": [
+        "NEPHI",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "MORMON",
+        "NEPHI",
+        "MORMON",
+        "MORMON",
+        "NEPHI",
+        "MORMON",
+        "NEPHI",
+        "NEPHI",
+        "MORMON",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "NEPHI",
+        "MORMON",
+        "MORMON",
+        "MORMON"
+      ],
+      "run_0021": [
+        "MORONI",
+        "MORONI",
+        "JACOB",
+        "JACOB"
+      ],
+      "run_0022": [
+        "MORMON"
+      ]
+    },
+    "run_voices": {
+      "run_0000": "NEPHI",
+      "run_0002": "NEPHI",
+      "run_0003": "JACOB",
+      "run_0004": "NEPHI",
+      "run_0006": "NEPHI",
+      "run_0008": "NEPHI",
+      "run_0009": "JACOB",
+      "run_0011": "JACOB",
+      "run_0015": "MORMON",
+      "run_0017": "MORMON",
+      "run_0019": "MORMON",
+      "run_0020": "MORONI",
+      "run_0021": "MORMON",
+      "run_0022": "MORONI"
+    },
+    "run_accuracies": {
+      "run_0000": 0.15,
+      "run_0002": 0.375,
+      "run_0003": 0.0,
+      "run_0004": 1.0,
+      "run_0006": 0.6666666666666666,
+      "run_0008": 1.0,
+      "run_0009": 0.0,
+      "run_0011": 0.0,
+      "run_0015": 0.6,
+      "run_0017": 0.5555555555555556,
+      "run_0019": 0.16666666666666666,
+      "run_0020": 0.0,
+      "run_0021": 0.0,
+      "run_0022": 0.0
+    }
+  },
+  "bootstrap": {
+    "mean": 0.20813215277777777,
+    "std": 0.08912813394370786,
+    "ci_95_lower": 0.054143518518518514,
+    "ci_95_upper": 0.3947337962962963,
+    "n_bootstrap": 1000
+  },
+  "permutation": {
+    "observed_score": 0.24222222222222223,
+    "p_value": 0.17671,
+    "null_mean": 0.1815063103009259,
+    "null_std": 0.06688115807651082,
+    "null_min": 0.004166666666666667,
+    "null_max": 0.5791666666666666,
+    "null_5_percentile": 0.08222222222222222,
+    "null_95_percentile": 0.30118055555555556,
+    "n_permutations": 100000
+  }
+}

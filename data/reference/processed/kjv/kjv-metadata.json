@@ -1,0 +1,42 @@
+{
+  "name": "kjv",
+  "source_type": "multi-author",
+  "description": "KJV Bible - selected books with different traditional authors",
+  "books": {
+    "Genesis": {
+      "author": "Moses (traditional)",
+      "words": 38262
+    },
+    "Psalms": {
+      "author": "David/Multiple (traditional)",
+      "words": 42682
+    },
+    "Proverbs": {
+      "author": "Solomon (traditional)",
+      "words": 15038
+    },
+    "Isaiah": {
+      "author": "Isaiah (traditional)",
+      "words": 37036
+    },
+    "Matthew": {
+      "author": "Matthew (traditional)",
+      "words": 23684
+    },
+    "John": {
+      "author": "John (traditional)",
+      "words": 19094
+    },
+    "Romans": {
+      "author": "Paul (traditional)",
+      "words": 9422
+    },
+    "Hebrews": {
+      "author": "Unknown/Paul? (traditional)",
+      "words": 6897
+    }
+  },
+  "total_words": 192115,
+  "segment_count": 192,
+  "processed_at": "2026-02-02T00:30:02.035183+00:00"
+}
