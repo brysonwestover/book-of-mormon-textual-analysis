@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-05T22:17:24.576772+00:00",
+    "script_version": "1.0.0",
+    "random_seed": 42,
+    "n_bootstrap": 10000,
+    "chance_level": 0.25,
+    "equivalence_delta": 0.15,
+    "note": "Supplementary analysis - documented deviation from pre-registration"
+  },
+  "variants": {
+    "Primary": {
+      "description": "Primary analysis (1000-word blocks, FW features)",
+      "config": {
+        "description": "Primary analysis (1000-word blocks, FW features)",
+        "target_size": 1000,
+        "include_quotes": false
+      },
+      "n_runs": 14,
+      "observed_accuracy": 0.19430555555555554,
+      "run_accuracies": [
+        0.15,
+        0.5,
+        0.0,
+        0.0,
+        0.6666666666666666,
+        1.0,
+        0.0,
+        0.0,
+        0.45,
+        0.5555555555555556,
+        0.25,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tost": {
+        "observed_accuracy": 0.25515873015873014,
+        "standard_error": 0.08704876534291364,
+        "n_runs": 14,
+        "chance_level": 0.25,
+        "equivalence_delta": 0.15,
+        "lower_bound": 0.1,
+        "upper_bound": 0.4,
+        "t_statistic_lower": 1.7824345876418695,
+        "p_value_lower": 0.0490171976120064,
+        "t_statistic_upper": -1.6639095255480374,
+        "p_value_upper": 0.060017750282497874,
+        "tost_p_value": 0.060017750282497874,
+        "ci_90_lower": 0.10100116453353972,
+        "ci_90_upper": 0.4093162957839206,
+        "ci_within_bounds": false,
+        "equivalence_demonstrated": false
+      },
+      "bayes_factor": {
+        "bayes_factor_01": 2.8491770199249853,
+        "effect_size": 0.015838577646472424,
+        "t_statistic": 0.05926253104691617,
+        "interpretation": "Weak evidence for null",
+        "prior_scale": 0.1
+      },
+      "bootstrap": {
+        "ci_95_lower": 0.10357142857142856,
+        "ci_95_upper": 0.4305555555555555,
+        "mean": 0.2555077777777778,
+        "std": 0.08469703233552489
+      }
+    },
+    "A1": {
+      "description": "Block size 500",
+      "config": {
+        "description": "Block size 500",
+        "target_size": 500,
+        "include_quotes": false
+      },
+      "n_runs": 14,
+      "observed_accuracy": 0.2632131185807656,
+      "run_accuracies": [
+        0.15,
+        0.5,
+        0.1,
+        0.0,
+        0.8333333333333334,
+        0.7777777777777778,
+        0.2857142857142857,
+        0.0,
+        0.7,
+        0.5882352941176471,
+        0.6,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tost": {
+        "observed_accuracy": 0.3239329064959317,
+        "standard_error": 0.08740711677979282,
+        "n_runs": 14,
+        "chance_level": 0.25,
+        "equivalence_delta": 0.15,
+        "lower_bound": 0.1,
+        "upper_bound": 0.4,
+        "t_statistic_lower": 2.561952787667074,
+        "p_value_lower": 0.011825742858797894,
+        "t_statistic_upper": -0.8702620141985264,
+        "p_value_upper": 0.1999709108596679,
+        "tost_p_value": 0.1999709108596679,
+        "ci_90_lower": 0.16914072434367206,
+        "ci_90_upper": 0.47872508864819135,
+        "ci_within_bounds": false,
+        "equivalence_demonstrated": false
+      },
+      "bayes_factor": {
+        "bayes_factor_01": 2.085012315415277,
+        "effect_size": 0.22606168852449696,
+        "t_statistic": 0.845845386734274,
+        "interpretation": "Weak evidence for null",
+        "prior_scale": 0.1
+      },
+      "bootstrap": {
+        "ci_95_lower": 0.1622449813258637,
+        "ci_95_upper": 0.49270416499933295,
+        "mean": 0.323980052354275,
+        "std": 0.08488800869707244
+      }
+    },
+    "A2": {
+      "description": "Block size 2000",
+      "config": {
+        "description": "Block size 2000",
+        "target_size": 2000,
+        "include_quotes": false
+      },
+      "n_runs": 14,
+      "observed_accuracy": 0.2303030303030303,
+      "run_accuracies": [
+        0.2727272727272727,
+        0.75,
+        0.0,
+        0.0,
+        0.5,
+        1.0,
+        0.0,
+        0.0,
+        0.4,
+        0.6,
+        0.6666666666666666,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tost": {
+        "observed_accuracy": 0.29924242424242425,
+        "standard_error": 0.09369345067248429,
+        "n_runs": 14,
+        "chance_level": 0.25,
+        "equivalence_delta": 0.15,
+        "lower_bound": 0.1,
+        "upper_bound": 0.4,
+        "t_statistic_lower": 2.1265352360529226,
+        "p_value_lower": 0.026592022955794437,
+        "t_statistic_upper": -1.0753961459887404,
+        "p_value_upper": 0.1508758167390239,
+        "tost_p_value": 0.1508758167390239,
+        "ci_90_lower": 0.13331756346127313,
+        "ci_90_upper": 0.4651672850235754,
+        "ci_within_bounds": false,
+        "equivalence_demonstrated": false
+      },
+      "bayes_factor": {
+        "bayes_factor_01": 2.5279784930363283,
+        "effect_size": 0.14046436931662457,
+        "t_statistic": 0.5255695450320913,
+        "interpretation": "Weak evidence for null",
+        "prior_scale": 0.1
+      },
+      "bootstrap": {
+        "ci_95_lower": 0.12943722943722943,
+        "ci_95_upper": 0.48333333333333334,
+        "mean": 0.2989836038961039,
+        "std": 0.09094436407449913
+      }
+    },
+    "A3": {
+      "description": "Include quotations",
+      "config": {
+        "description": "Include quotations",
+        "target_size": 1000,
+        "include_quotes": true
+      },
+      "n_runs": 15,
+      "observed_accuracy": 0.30069444444444443,
+      "run_accuracies": [
+        0.35,
+        0.5,
+        0.0,
+        0.0,
+        0.6666666666666666,
+        0.0,
+        0.6,
+        0.0,
+        0.0,
+        0.4,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "tost": {
+        "observed_accuracy": 0.3011111111111111,
+        "standard_error": 0.08542558670677967,
+        "n_runs": 15,
+        "chance_level": 0.25,
+        "equivalence_delta": 0.15,
+        "lower_bound": 0.1,
+        "upper_bound": 0.4,
+        "t_statistic_lower": 2.354225693543293,
+        "p_value_lower": 0.01684546258334607,
+        "t_statistic_upper": -1.157602689090349,
+        "p_value_upper": 0.13319742737413132,
+        "tost_p_value": 0.13319742737413132,
+        "ci_90_lower": 0.15065015938994328,
+        "ci_90_upper": 0.4515720628322789,
+        "ci_within_bounds": false,
+        "equivalence_demonstrated": false
+      },
+      "bayes_factor": {
+        "bayes_factor_01": 2.3697843045910014,
+        "effect_size": 0.15448336559783127,
+        "t_statistic": 0.5983115022264722,
+        "interpretation": "Weak evidence for null",
+        "prior_scale": 0.1
+      },
+      "bootstrap": {
+        "ci_95_lower": 0.14555555555555558,
+        "ci_95_upper": 0.4633333333333333,
+        "mean": 0.30046388888888886,
+        "std": 0.08228541710915221
+      }
+    }
+  }
+}

@@ -34,8 +34,18 @@ Note on run sets:
   - A3 (include quotations) adds 1 extra run (run_0007) - 15 runs total
   - MaxT correction is valid because run overlap is 14/15 (93%)
 
-Version: 1.3.0
+Version: 1.6.0
 Date: 2026-02-04
+
+Changes from 1.5.0:
+- Fix: Skip non-maxT variants during permutation loop (was causing all perms to fail)
+- Fix: Handle None p-values in summary output for excluded variants
+
+Changes from 1.4.0:
+- Exclude A3 from maxT family (different run count: 15 vs 14)
+- A3 reported separately with uncorrected p-value
+- Added defensive assertion for perm_mapping keys
+- Per GPT-5.2 Pro methodology review
 """
 
 import json
@@ -605,9 +615,20 @@ def run_permutation_for_variant(blocks: list, variant_config: dict,
     if len(run_data["runs"]) < 4:
         return None  # Not enough runs for valid CV
 
+    # Defensive check: ensure perm_mapping covers all runs in this variant
+    # (Prevents silent bugs where missing keys use original labels)
+    variant_runs = set(run_data["run_voices"].keys())
+    perm_runs = set(perm_mapping.keys())
+    missing_runs = variant_runs - perm_runs
+    if missing_runs:
+        # This variant has runs not in the permutation mapping
+        # This happens for A3 (15 runs) when using 14-run permutations
+        # Return None to signal this permutation doesn't apply to this variant
+        return None
+
     # Apply permutation to run voices
     permuted_run_voices = {
-        run_id: perm_mapping.get(run_id, voice)
+        run_id: perm_mapping[run_id]  # Now safe - we verified all keys exist
         for run_id, voice in run_data["run_voices"].items()
     }
     run_data["run_voices"] = permuted_run_voices
@@ -644,22 +665,39 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
                                         variant_indices: dict,
                                         master_voice_runs: dict,
                                         n_permutations: int,
+                                        maxt_variants: set = None,
                                         checkpoint: dict = None) -> dict:
     """
-    Run max-statistic permutation test across all variants.
+    Run max-statistic permutation test across variants.
 
     Same permutation applied to all variants for valid maxT correction.
     Uses corrected p-value formula: (1 + sum) / (1 + B)
     Supports checkpointing for resumption after interruption.
+
+    Args:
+        maxt_variants: Set of variant IDs to include in maxT family.
+                       Variants not in this set are still analyzed but
+                       reported separately (not part of FWER correction).
+                       If None, all variants are included.
     """
+    if maxt_variants is None:
+        maxt_variants = set(variants.keys())
+
+    excluded_from_maxt = set(variants.keys()) - maxt_variants
+    if excluded_from_maxt:
+        print(f"  MaxT family: {sorted(maxt_variants)}")
+        print(f"  Excluded from maxT (reported separately): {sorted(excluded_from_maxt)}")
+
     print(f"  Running max-statistic permutation test ({n_permutations} permutations)...")
 
     # Generate permutations using master voice_runs (same for all variants)
     perms = sample_restricted_permutations(master_voice_runs, n_permutations, RANDOM_SEED)
     print(f"  Generated {len(perms)} unique permutations")
 
-    # Observed max
-    observed_max = max(observed_scores.values())
+    # Observed max (only over maxT family variants)
+    maxt_observed_scores = {vid: score for vid, score in observed_scores.items()
+                           if vid in maxt_variants}
+    observed_max = max(maxt_observed_scores.values()) if maxt_observed_scores else 0.0
 
     # Initialize or restore from checkpoint
     start_idx = 0
@@ -683,11 +721,14 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
             print(f"    Permutation {i+1}/{len(perms)}...")
 
         # Compute score for each variant under this permutation
+        # Only test variants in maxT family (they share the same run structure)
         variant_scores = {}
         perm_failed = False
         for vid, vconfig in variants.items():
             if vid not in observed_scores:
                 continue  # Skip variants that failed in primary analysis
+            if vid not in maxt_variants:
+                continue  # Skip variants excluded from maxT (different run structure)
             try:
                 score = run_permutation_for_variant(
                     blocks, vconfig, perm_mapping, variant_indices[vid]
@@ -706,8 +747,11 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
             n_failed_perms += 1
             continue  # Skip this permutation entirely if any variant failed
 
-        # Record max across variants
-        perm_max_scores.append(max(variant_scores.values()))
+        # Record max across maxT family variants only
+        maxt_scores = {vid: score for vid, score in variant_scores.items()
+                       if vid in maxt_variants}
+        if maxt_scores:
+            perm_max_scores.append(max(maxt_scores.values()))
 
         # Checkpoint every CHECKPOINT_INTERVAL permutations
         if (i + 1) % CHECKPOINT_INTERVAL == 0:
@@ -725,7 +769,8 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
 
     # Corrected p-value formula per GPT: (1 + sum(perm >= obs)) / (1 + B)
     n_exceed = np.sum(perm_max_scores >= observed_max)
-    corrected_p = (1 + n_exceed) / (1 + len(perms))
+    # Use len(perm_max_scores) not len(perms) - failed perms are excluded
+    corrected_p = (1 + n_exceed) / (1 + len(perm_max_scores))
 
     # Per-variant uncorrected p-values (also corrected formula)
     # Only compute for variants that have observed scores
@@ -739,12 +784,14 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
         n_exceed_v = np.sum(scores >= observed_scores[vid])
         uncorrected_p[vid] = (1 + n_exceed_v) / (1 + len(scores))
 
-    # Per-variant adjusted p-values (maxT-adjusted)
+    # Per-variant adjusted p-values (maxT-adjusted) - ONLY for maxT family
     # p_adj_i = Pr(max_j T_perm_j >= T_obs_i)
     adjusted_p = {}
     for vid in variants.keys():
         if vid not in observed_scores:
             continue  # Skip failed variants
+        if vid not in maxt_variants:
+            continue  # Excluded variants don't get maxT adjustment
         obs_score = observed_scores[vid]
         n_exceed_adj = np.sum(perm_max_scores >= obs_score)
         adjusted_p[vid] = (1 + n_exceed_adj) / (1 + len(perm_max_scores))
@@ -758,12 +805,14 @@ def run_max_statistic_permutation_test(blocks: list, variants: dict,
         "uncorrected_p_values": uncorrected_p,
         "adjusted_p_values": adjusted_p,
         "observed_max": observed_max,
-        "null_max_mean": float(np.mean(perm_max_scores)),
-        "null_max_std": float(np.std(perm_max_scores)),
-        "null_max_95_percentile": float(np.percentile(perm_max_scores, 95)),
+        "null_max_mean": float(np.mean(perm_max_scores)) if len(perm_max_scores) > 0 else None,
+        "null_max_std": float(np.std(perm_max_scores)) if len(perm_max_scores) > 0 else None,
+        "null_max_95_percentile": float(np.percentile(perm_max_scores, 95)) if len(perm_max_scores) > 0 else None,
         "n_permutations_requested": len(perms),
         "n_permutations_successful": n_successful,
-        "n_permutations_failed": n_failed_perms
+        "n_permutations_failed": n_failed_perms,
+        "maxt_variants": sorted(maxt_variants),
+        "excluded_variants": sorted(excluded_from_maxt)
     }
 
 
@@ -822,9 +871,21 @@ def generate_report(results: dict, output_path: Path):
             adj_str = f"{adj_p:.4f}" if adj_p else "-"
             lines.append(f"| {vid} | {vconfig['description']} | {vresult['accuracy']:.1%} | {uncorr_str} | {adj_str} | {vresult['n_runs']} | {vresult['n_blocks']} |")
 
+    # Note about maxT family
+    maxt_variants = results['permutation'].get('maxt_variants', [])
+    excluded_variants = results['permutation'].get('excluded_variants', [])
+
+    lines.append("")
+    if excluded_variants:
+        lines.append(f"**MaxT family:** {', '.join(maxt_variants)}")
+        lines.append(f"**Excluded from maxT:** {', '.join(excluded_variants)} (different run structure; reported separately)")
+        lines.append("")
+        lines.append("**Note:** Adjusted p-values use maxT correction across the maxT family only.")
+        lines.append("A3 has 15 runs (includes quotation run) vs 14 for other variants, breaking maxT validity.")
+    else:
+        lines.append("**Note:** Adjusted p-values use maxT correction (accounts for all variants).")
+
     lines.extend([
-        "",
-        "**Note:** Adjusted p-values use maxT correction (accounts for testing 6 variants).",
         "",
         "---",
         "",
@@ -847,21 +908,34 @@ def generate_report(results: dict, output_path: Path):
         }.get(vconfig['classifier'], vconfig['classifier'])
         lines.append(f"| {vid} | {vconfig['target_size']} | {'Yes' if vconfig['include_quotes'] else 'No'} | {feat_desc} | {clf_desc} |")
 
+    # Handle None values for null distribution stats
+    null_mean = results['permutation']['null_max_mean']
+    null_std = results['permutation']['null_max_std']
+    null_95 = results['permutation']['null_max_95_percentile']
+
     lines.extend([
         "",
         "---",
         "",
         "## Max-Statistic Permutation Test",
         "",
+        f"- **MaxT family:** {', '.join(results['permutation'].get('maxt_variants', []))}",
         f"- **Observed max accuracy:** {results['permutation']['observed_max']:.1%}",
-        f"- **Null max distribution:** {results['permutation']['null_max_mean']:.1%} ± {results['permutation']['null_max_std']:.1%}",
-        f"- **Null max 95th percentile:** {results['permutation']['null_max_95_percentile']:.1%}",
+    ])
+
+    if null_mean is not None:
+        lines.extend([
+            f"- **Null max distribution:** {null_mean:.1%} ± {null_std:.1%}",
+            f"- **Null max 95th percentile:** {null_95:.1%}",
+        ])
+
+    lines.extend([
         f"- **Corrected p-value:** {results['permutation']['corrected_p_value']:.4f}",
-        f"- **Permutations:** {results['permutation']['n_permutations']:,}",
+        f"- **Permutations:** {results['permutation']['n_permutations_successful']:,}",
         "",
         "The max-statistic method controls familywise error rate by comparing the",
         "maximum observed accuracy against the distribution of maximum accuracies",
-        "under the null hypothesis (same permutation applied to all variants).",
+        "under the null hypothesis (same permutation applied to all variants in maxT family).",
         "",
         "P-value formula: (1 + sum(perm >= obs)) / (1 + B) per GPT recommendation.",
         "",
@@ -876,6 +950,7 @@ def generate_report(results: dict, output_path: Path):
         "3. **Separate scaling for combined features** — FW and n-grams scaled independently",
         "4. **LinearSVC with fixed C=1.0** — No tuning (insufficient N for nested CV)",
         "5. **Corrected p-value formula** — (1+sum)/(1+B) avoids zero p-values",
+        "6. **A3 excluded from maxT** — Different run count (15 vs 14) breaks maxT validity",
         "",
         "---",
         "",
@@ -1049,23 +1124,34 @@ def main():
         print("ERROR: No valid variants to run permutation test")
         return
 
+    # Define maxT family (exclude A3 which has different run count)
+    # A3 has 15 runs (includes quotation run), others have 14 runs
+    # Per GPT-5.2 Pro review: different run structure breaks maxT validity
+    maxt_variants = {"A1", "A2", "A4", "A5", "A6"}
+
     # Run max-statistic permutation test (with checkpoint support)
     print("\n" + "=" * 70)
     perm_checkpoint = checkpoint if checkpoint and checkpoint.get("stage") == "permutations" else None
     perm_results = run_max_statistic_permutation_test(
         blocks, variants, observed_scores, variant_indices,
-        master_voice_runs, N_PERMUTATIONS, perm_checkpoint
+        master_voice_runs, N_PERMUTATIONS,
+        maxt_variants=maxt_variants,
+        checkpoint=perm_checkpoint
     )
 
-    print(f"\n  Corrected p-value: {perm_results['corrected_p_value']:.4f}")
+    print(f"\n  Corrected p-value (maxT): {perm_results['corrected_p_value']:.4f}")
+    print(f"  MaxT family: {perm_results['maxt_variants']}")
+    if perm_results['excluded_variants']:
+        print(f"  Excluded (reported separately): {perm_results['excluded_variants']}")
     print(f"  Observed max: {perm_results['observed_max']:.1%}")
-    print(f"  Null max: {perm_results['null_max_mean']:.1%} ± {perm_results['null_max_std']:.1%}")
+    if perm_results['null_max_mean'] is not None:
+        print(f"  Null max: {perm_results['null_max_mean']:.1%} ± {perm_results['null_max_std']:.1%}")
 
     # Compile results
     results = {
         "metadata": {
             "generated_at": datetime.now(timezone.utc).isoformat(),
-            "script_version": "1.1.0",
+            "script_version": "1.5.0",
             "random_seed": RANDOM_SEED,
             "max_blocks_per_run": MAX_BLOCKS_PER_RUN,
             "n_permutations": N_PERMUTATIONS,
@@ -1103,7 +1189,10 @@ def main():
         uncorr_p = perm_results['uncorrected_p_values'].get(vid, None)
         adj_p = perm_results['adjusted_p_values'].get(vid, None)
         if acc is not None:
-            print(f"  {vid}: {acc:.1%} (uncorr p={uncorr_p:.4f}, adj p={adj_p:.4f})")
+            uncorr_str = f"{uncorr_p:.4f}" if uncorr_p is not None else "N/A"
+            adj_str = f"{adj_p:.4f}" if adj_p is not None else "N/A"
+            excluded_note = " [excluded from maxT]" if vid not in maxt_variants else ""
+            print(f"  {vid}: {acc:.1%} (uncorr p={uncorr_str}, adj p={adj_str}){excluded_note}")
         else:
             print(f"  {vid}: ERROR")
 

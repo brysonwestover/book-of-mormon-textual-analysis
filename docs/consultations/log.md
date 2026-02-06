@@ -14,6 +14,9 @@ This log tracks all consultations with GPT-5.2 Pro during the project.
 | 2026-02-01 | Data Audit | Source text options | Phased approach recommended | Proceeded with Jenson 1830 |
 | 2026-02-01 | Data Audit | Preprocessing review | 5 critical gaps, 3 medium | Addressing (in progress) |
 | 2026-02-01 | Methodology | Segment annotation review | "Mormon" label conflates sources; boundary noise | Decisions pending user input |
+| 2026-02-04 | Post-hoc Audit | Phase 2.0 (v3 script) | MAJOR: metric definition needs clarification; null mean 0.182 vs "chance" 25% | Document properly; no retraction needed |
+| 2026-02-04 | Methodology | Robustness methodology design | Variant set OK; A3 should be excluded from maxT; "p>=0.05=robust" is insufficient criterion | Update interpretation |
+| 2026-02-04 | Script Audit | run_robustness.py v1.3.0 | ISSUE: p-value denominator bug (len(perms) vs len(perm_max_scores)) | Fixed in v1.4.0 |
 
 ---
 
@@ -149,7 +152,76 @@ This log tracks all consultations with GPT-5.2 Pro during the project.
 
 ---
 
+---
+
+### 2026-02-04: Phase 2.0 Post-Hoc Audit
+
+**Type:** Post-hoc Script Audit (results already published)
+
+**Key Findings:**
+
+| Issue | Severity | Status |
+|-------|----------|--------|
+| Metric definition ambiguity | MAJOR | Needs clarification |
+| "Chance 25%" vs null mean 0.182 | MAJOR | Discrepancy needs resolution |
+| Restricted permutation design | SOUND | Valid |
+| p-value +1 correction | MINOR | Recommend applying |
+| Preprocessing within folds | SOUND | Verified via Pipeline |
+
+**GPT Verdict:** "MAJOR (correction/clarification needed), NOT CRITICAL"
+
+**Actions:**
+- Results can stand (no retraction)
+- Should clarify that "chance" = permutation null (0.182), not theoretical 25%
+- Future scripts should use +1 correction in p-value formula
+
+---
+
+### 2026-02-04: Robustness Methodology Review
+
+**Type:** Methodology Review (first principles)
+
+**Key Findings:**
+
+1. **Variant set:** REASONABLE (covers main degrees of freedom)
+2. **MaxT with overlap:** VALID (same permutations applied across variants)
+3. **A3 (15 runs vs 14):** Should be EXCLUDED from maxT or run on common 14-run subset
+4. **"p>=0.05=robust" criterion:** NOT DEFENSIBLE - only says no familywise significant result
+5. **Power:** N_eff=14 is UNDERPOWERED; non-significance is weak evidence
+
+**GPT Recommendations:**
+- Report range of effect sizes across variants
+- Use equivalence testing (CIs within ROPE) not just p-value
+- Handle A3 separately from maxT
+
+**Actions:** Updated interpretation in documentation
+
+---
+
+### 2026-02-04: run_robustness.py Script Audit
+
+**Type:** Script Audit (Pre-Execution)
+
+**Key Findings:**
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Permutation at run level | PASS | Correctly permutes run→voice |
+| Full CV refit per permutation | PASS | leave_one_run_out_cv called |
+| Scaling within folds | PASS | fit_transform on train only |
+| p-value formula | **BUG** | Used `len(perms)` not `len(perm_max_scores)` |
+| Sparse handling | PASS | All densified with .toarray() |
+
+**Bug Fixed:** Line 728 changed from `len(perms)` to `len(perm_max_scores)`
+
+**Version:** Updated to v1.4.0
+
+---
+
 ## Pending Consultations
 
 - [ ] Validation study design review
 - [x] Control corpora selection review (skipped - standard preprocessing)
+- [x] Phase 2.0 post-hoc audit (2026-02-04 - COMPLETE)
+- [x] Robustness methodology (2026-02-04 - COMPLETE)
+- [x] run_robustness.py audit (2026-02-04 - COMPLETE, bug fixed)

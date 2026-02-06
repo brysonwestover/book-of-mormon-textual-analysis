@@ -1,7 +1,7 @@
 # Pre-Registration: Book of Mormon Stylometric Analysis (Phase 2)
 
 **Registration Date:** 2026-02-03
-**Investigators:** [Your name]
+**Investigators:** Bryson Westover
 **Analysis conducted by:** Claude (Anthropic) with GPT-5.2 Pro methodology consultation
 
 ---
@@ -242,7 +242,7 @@ All Phase 1 results (v1 and v2 classification) are **exploratory** and were cond
 ### 8.1 Repository
 
 All code, data, and analysis scripts are version-controlled at:
-[Repository URL - to be added]
+https://github.com/brysonwestover/book-of-mormon-textual-analysis
 
 ### 8.2 Key Files
 

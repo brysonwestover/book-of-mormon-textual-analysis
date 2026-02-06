@@ -21,75 +21,142 @@ DELAY_BETWEEN_REQUESTS = 2  # seconds
 
 # Works to download - all translated by Constance Garnett
 WORKS = [
-    # Dostoevsky
+    # Dostoevsky (6 works)
     {
         "author": "Dostoevsky",
         "title": "Crime and Punishment",
         "gutenberg_id": 2554,
         "publication_year": 1914,
+        "genre": "novel",
     },
     {
         "author": "Dostoevsky",
         "title": "The Brothers Karamazov",
         "gutenberg_id": 28054,
         "publication_year": 1912,
+        "genre": "novel",
     },
     {
         "author": "Dostoevsky",
         "title": "The Idiot",
         "gutenberg_id": 2638,
         "publication_year": 1913,
+        "genre": "novel",
     },
     {
         "author": "Dostoevsky",
         "title": "Notes from Underground",
         "gutenberg_id": 600,
         "publication_year": 1918,
+        "genre": "novella",
     },
-    # Tolstoy
+    {
+        "author": "Dostoevsky",
+        "title": "The Possessed",
+        "gutenberg_id": 8117,
+        "publication_year": 1916,
+        "genre": "novel",
+    },
+    {
+        "author": "Dostoevsky",
+        "title": "The Gambler",
+        "gutenberg_id": 2197,
+        "publication_year": 1917,
+        "genre": "novella",
+    },
+    # Tolstoy (4 works)
     {
         "author": "Tolstoy",
         "title": "Anna Karenina",
         "gutenberg_id": 1399,
         "publication_year": 1901,
+        "genre": "novel",
     },
     {
         "author": "Tolstoy",
         "title": "War and Peace",
         "gutenberg_id": 2600,
         "publication_year": 1904,
+        "genre": "novel",
     },
-    # Chekhov
+    {
+        "author": "Tolstoy",
+        "title": "The Death of Ivan Ilych",
+        "gutenberg_id": 43424,
+        "publication_year": 1915,
+        "genre": "novella",
+    },
+    {
+        "author": "Tolstoy",
+        "title": "The Kreutzer Sonata",
+        "gutenberg_id": 689,
+        "publication_year": 1915,
+        "genre": "novella",
+    },
+    # Chekhov (4 works - short story collections)
     {
         "author": "Chekhov",
         "title": "The Lady with the Dog and Other Stories",
         "gutenberg_id": 13415,
         "publication_year": 1917,
+        "genre": "stories",
     },
     {
         "author": "Chekhov",
         "title": "The Darling and Other Stories",
         "gutenberg_id": 13416,
         "publication_year": 1916,
+        "genre": "stories",
     },
     {
         "author": "Chekhov",
         "title": "The Party and Other Stories",
         "gutenberg_id": 1945,
         "publication_year": 1917,
+        "genre": "stories",
     },
-    # Turgenev
+    {
+        "author": "Chekhov",
+        "title": "The Wife and Other Stories",
+        "gutenberg_id": 1732,
+        "publication_year": 1918,
+        "genre": "stories",
+    },
+    # Turgenev (5 works)
     {
         "author": "Turgenev",
         "title": "Fathers and Sons",
         "gutenberg_id": 30723,
         "publication_year": 1895,
+        "genre": "novel",
     },
     {
         "author": "Turgenev",
         "title": "A House of Gentlefolk",
         "gutenberg_id": 6588,
         "publication_year": 1894,
+        "genre": "novel",
+    },
+    {
+        "author": "Turgenev",
+        "title": "On the Eve",
+        "gutenberg_id": 6319,
+        "publication_year": 1895,
+        "genre": "novel",
+    },
+    {
+        "author": "Turgenev",
+        "title": "Smoke",
+        "gutenberg_id": 5765,
+        "publication_year": 1896,
+        "genre": "novel",
+    },
+    {
+        "author": "Turgenev",
+        "title": "Virgin Soil",
+        "gutenberg_id": 6323,
+        "publication_year": 1896,
+        "genre": "novel",
     },
 ]
 
@@ -183,7 +250,8 @@ def main():
                 "translator": "Constance Garnett",
                 "gutenberg_id": gutenberg_id,
                 "publication_year": publication_year,
-                "file_path": filename,
+                "genre": work.get("genre", "unknown"),
+                "filename": filename,
                 "word_count": word_count,
             })
 

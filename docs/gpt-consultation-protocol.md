@@ -2,8 +2,8 @@
 
 This document establishes the standard procedure for consulting GPT-5.2 Pro during the Book of Mormon Textual Analysis project.
 
-**Version:** 1.0.0
-**Date:** 2026-02-01
+**Version:** 2.0.0
+**Date:** 2026-02-04 (Updated from 1.0.0)
 
 ---
 
@@ -33,6 +33,26 @@ Consult GPT-5.2 Pro **before proceeding** when:
 | Before publishing/sharing findings | Final adversarial review |
 | Significant code changes to analysis pipeline | Pipeline audit |
 | Interpretation of ambiguous results | Interpretation challenge |
+| **Before running ANY analysis script** | **Script audit (pre-execution)** |
+
+### ⚠️ MANDATORY: Script Audit Before Execution
+
+**Effective 2026-02-04:** ALL analysis scripts MUST be audited by GPT-5.2 Pro before execution.
+
+**Rationale:** Methodology can be sound while implementation contains bugs. Script audits catch:
+- Logic errors in the implementation
+- Misalignment between documented methodology and actual code
+- Edge cases that invalidate results
+- Determinism/reproducibility issues
+
+**Workflow:**
+1. Claude writes script based on GPT-approved methodology
+2. **STOP** - Do not run script
+3. Submit full script to GPT for "Script Audit (Pre-Execution)"
+4. Address any issues GPT identifies
+5. Only then execute the script
+
+**This is NON-NEGOTIABLE for all analysis scripts, regardless of time or API cost.**
 
 ### Optional Consultations
 
@@ -157,6 +177,51 @@ Questions:
 
 **Model Settings:** `reasoning_effort: high`
 
+### 6. Script Audit (Pre-Execution) ⚠️ MANDATORY
+
+**When:** Before running ANY analysis script
+
+**Prompt Template:**
+```
+SCRIPT AUDIT REQUEST
+
+This script has NOT been run yet. Review it for correctness before we execute.
+
+## Context
+- Project: Book of Mormon Textual Analysis
+- Phase: [PHASE NAME]
+- Purpose: [WHAT THE SCRIPT DOES]
+- Pre-registered methodology: [LINK OR SUMMARY]
+
+## Script Code
+[FULL SCRIPT CODE]
+
+## Audit Checklist
+Please verify:
+1. Does the implementation match the documented methodology?
+2. Are there logic errors or bugs?
+3. Are there edge cases that could invalidate results?
+4. Is the code deterministic and reproducible?
+5. Are statistical assumptions correct (permutation tests, CV, etc.)?
+6. Are there data leakage risks?
+7. Is the p-value calculation correct?
+8. Are class imbalances handled appropriately?
+
+## Questions
+- Should we run this script as-is?
+- What changes are required before execution?
+- What tests should we add?
+- Rate confidence: Can we trust results from this script?
+```
+
+**Model Settings:** `reasoning_effort: xhigh` (non-negotiable for script audits)
+
+**Requirements:**
+- Submit FULL script code (not summaries)
+- Include methodology reference
+- Do NOT run script until GPT approves
+- Document audit results in `docs/consultations/`
+
 ---
 
 ## Documentation Requirements
@@ -263,3 +328,4 @@ Endorsement means the approach is **defensible given stated constraints**, not t
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0.0 | 2026-02-01 | Initial protocol |
+| 2.0.0 | 2026-02-04 | **BREAKING:** Added mandatory Script Audit (Pre-Execution) for ALL analysis scripts. Added consultation type #6 with xhigh reasoning. |

@@ -1,0 +1,74 @@
+{
+  "stage": "variants_complete",
+  "variant_results": {
+    "A1": {
+      "accuracy": 0.3721326447245565,
+      "n_runs": 14,
+      "n_blocks": 159,
+      "n_features": 169
+    },
+    "A2": {
+      "accuracy": 0.2976325757575758,
+      "n_runs": 14,
+      "n_blocks": 72,
+      "n_features": 169
+    },
+    "A3": {
+      "accuracy": 0.23229166666666667,
+      "n_runs": 15,
+      "n_blocks": 117,
+      "n_features": 169
+    },
+    "A4": {
+      "accuracy": 0.31451388888888887,
+      "n_runs": 14,
+      "n_blocks": 115,
+      "n_features": 16384
+    },
+    "A5": {
+      "accuracy": 0.2980555555555556,
+      "n_runs": 14,
+      "n_blocks": 115,
+      "n_features": 16553
+    },
+    "A6": {
+      "accuracy": 0.2252777777777778,
+      "n_runs": 14,
+      "n_blocks": 115,
+      "n_features": 169
+    }
+  },
+  "observed_scores": {
+    "A1": 0.3721326447245565,
+    "A2": 0.2976325757575758,
+    "A3": 0.23229166666666667,
+    "A4": 0.31451388888888887,
+    "A5": 0.2980555555555556,
+    "A6": 0.2252777777777778
+  },
+  "master_voice_runs": {
+    "NEPHI": [
+      "run_0000",
+      "run_0002",
+      "run_0004",
+      "run_0006",
+      "run_0008"
+    ],
+    "JACOB": [
+      "run_0003",
+      "run_0009",
+      "run_0011"
+    ],
+    "MORMON": [
+      "run_0015",
+      "run_0017",
+      "run_0019",
+      "run_0021"
+    ],
+    "MORONI": [
+      "run_0020",
+      "run_0022"
+    ]
+  },
+  "checkpoint_time": "2026-02-04T23:15:17.783911+00:00"
+}
