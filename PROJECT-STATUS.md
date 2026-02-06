@@ -1,8 +1,10 @@
 # Project Status: Book of Mormon Textual Analysis
 
-**Last Updated:** 2026-02-02
-**Status:** Stylometric Analysis Complete (Phase 1)
-**Current Step:** Results Interpretation Complete - Ready for Write-up
+**Last Updated:** 2026-02-06
+**Status:** Phase 2.0 & 2.D Complete; Phase 2.A In Progress
+**Current Step:** Awaiting Robustness Analysis Completion (AWS)
+**Pre-Registration:** [OSF DOI 10.17605/OSF.IO/4W3KH](https://osf.io/4W3KH)
+**Repository:** https://github.com/brysonwestover/book-of-mormon-textual-analysis
 
 ---
 
@@ -14,6 +16,60 @@ If resuming this project in a new session, read these files in order:
 2. `METHODOLOGY.md` - Research framework and hypotheses
 3. `docs/decisions/SEGMENTATION-SUMMARY.md` - Voice annotation decisions
 4. `docs/decisions/block-derivation-strategy.md` - GPT-approved analysis approach
+
+---
+
+## Phase 2 Status (February 2026)
+
+### Phase 2.0: Primary Confirmatory Analysis ✅ COMPLETE
+**Script:** `scripts/run_classification_v3.py`
+**Results:** `results/classification-results-v3.json`
+
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| Balanced Accuracy | **24.2%** | Near 25% chance baseline |
+| Permutation p-value | **0.177** | NOT significant |
+| TOST Equivalence | p = 0.06 | Near-equivalence to chance |
+| Bayes Factor BF₀₁ | 2.85 | Weak evidence for null |
+
+**Methodology:** Logistic regression with LOWO (leave-one-work-out) CV, 100,000 group-level permutations, run-weighted balanced accuracy.
+
+### Phase 2.D: Garnett Calibration ✅ COMPLETE
+**Purpose:** Validate that stylometry can detect authorial signal through a single translator's voice.
+**Script:** `scripts/run_garnett_analysis_optimized.py`
+
+| Analysis | Accuracy | Chance | p-value | Status |
+|----------|----------|--------|---------|--------|
+| Novels Only (Primary) | **58.2%** | 33.3% | **0.0016** | ✅ Significant |
+| Full Corpus | 54.4% | 25% | **0.0001** | ✅ Significant |
+
+**Key Finding:** Method validated - authorial signal IS detectable through translation. The BoM null result is therefore **informative**, not inconclusive.
+
+### Phase 2.A: Robustness Testing 🔄 IN PROGRESS
+**Script:** `scripts/run_robustness_optimized.py`
+**Status:** Running on AWS c7i.8xlarge (~80% complete as of Feb 6)
+
+| Variant | Description | Preliminary |
+|---------|-------------|-------------|
+| A1 | 500-word blocks | ~28% (near chance) |
+| A2 | 2000-word blocks | ~19% (below chance) |
+| A3 | Include quotations | ~31% (slightly above) |
+| A4 | Character 3-grams | ~26% (near chance) |
+| A5 | Combined features | ~25% (near chance) |
+| A6 | SVM classifier | ~24% (near chance) |
+
+### OSF Pre-Registration & Amendments
+- **Pre-registration:** [DOI 10.17605/OSF.IO/4W3KH](https://osf.io/4W3KH) (Feb 3, 2026)
+- **Amendment #1:** Robustness testing deviations (Feb 5, 2026)
+- **Amendment #2:** Bootstrap CI feasibility criterion (Feb 5, 2026)
+
+See `docs/osf-preregistration.md`, `docs/osf-amendment-2026-02-05.md`, `docs/osf-amendment-2-2026-02-05.md`
+
+---
+
+## Phase 1 Summary (Historical)
+
+Phase 1 established the foundation: text acquisition, voice annotation (v3 schema), block derivation, and initial exploratory analyses. See below for details.
 
 ---
 
@@ -352,7 +408,7 @@ book-of-mormon-textual-analysis/
 3. Read the results reports in `results/` directory
 4. See `docs/decisions/expected-results-if-ancient.md` for interpretation framework
 
-**Phase 1 is COMPLETE.**
+**Phase 1 is COMPLETE. Phase 2.0 and 2.D are COMPLETE. Phase 2.A in progress.**
 
 ---
 

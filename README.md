@@ -256,7 +256,7 @@ If you use this framework or methodology, please cite:
 Book of Mormon Textual Analysis Project. (2026).
 LLM-Assisted Textual Analysis of the Book of Mormon:
 A Multi-Hypothesis Framework.
-https://github.com/[repository]
+https://github.com/brysonwestover/book-of-mormon-textual-analysis
 ```
 
 ## Contact

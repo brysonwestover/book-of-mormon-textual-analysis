@@ -500,11 +500,11 @@ The full dialogue is preserved in `/docs/methodology-dialogue.md`.
 
 ### Relevant Literature
 
-*To be populated with scholarly sources on:*
-- Computational stylometry methods
-- LLM-assisted annotation validation
+*Note: Full scholarly references will be compiled in the Phase 2.E final report. Key areas to be cited include:*
+- Computational stylometry methods (Burrows, Eder, Stamatatos)
+- Function-word authorship attribution
+- Translation effects on stylometric signal
 - Documentary hypothesis methodology
-- Pre-exilic Israelite religion
-- 19th-century American religious history
 - Book of Mormon scholarship (multiple perspectives)
-- Translation studies and stylometry
+
+See `docs/PROJECT-WIKI.md` for current status and findings.
