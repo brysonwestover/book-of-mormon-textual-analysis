@@ -1,0 +1,21 @@
+# Requirements for run-aggregated stylometric analysis (v1.5.1)
+# Python version: 3.12.x (tested with 3.12.3)
+#
+# Install: pip install -r requirements-stylometry.txt
+#
+# Note: These are the exact versions used for the archived analysis.
+# Using different versions may produce slightly different results due to
+# numerical precision differences.
+
+# Core scientific computing
+numpy==1.26.4
+scipy==1.12.0
+
+# Machine learning
+scikit-learn==1.4.0
+
+# Visualization
+matplotlib==3.8.2
+
+# Standard library modules used (no install needed):
+# - json, argparse, datetime, pathlib, collections, itertools, re, random

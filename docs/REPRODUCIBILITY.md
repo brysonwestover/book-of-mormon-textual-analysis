@@ -330,7 +330,69 @@ Multiple testing correction: MaxT (family-wise error rate control)
 
 ---
 
-## 10. Contact
+## 10. Run-Aggregated Analysis (v1.5.1)
+
+This supplementary analysis addresses pseudoreplication by aggregating to run level.
+
+### Quick Reproduction
+
+```bash
+# Activate environment
+source venv/bin/activate
+pip install -r requirements-stylometry.txt
+
+# Quick mode (100 permutations, ~2 minutes)
+python scripts/run_aggregated_analysis.py --quick
+
+# Production mode (100,000 permutations, ~4-6 hours)
+python scripts/run_aggregated_analysis.py
+```
+
+### Key Parameters
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| Random seed | 42 | `numpy.random.RandomState(42)` |
+| Primary permutations | 100,000 (prod) / 100 (quick) | Blocked within book-strata |
+| Exploratory permutations | 10,000 | Unrestricted |
+| Classes (primary) | 3 | JACOB, MORMON, NEPHI |
+| Excluded | MORONI | n=2 runs insufficient |
+
+### Expected Results (v1.5.1)
+
+| Metric | Expected Value |
+|--------|----------------|
+| Primary BA | 45.0% |
+| Blocked-null mean | ~42% |
+| Blocked p-value | ~0.51 |
+| Unrestricted p-value | ~0.08-0.12 |
+| Conclusion | NOT SIGNIFICANT |
+
+### Verification
+
+```bash
+# Check output exists
+ls results/run-aggregated-results.json
+
+# Verify key result
+python -c "
+import json
+with open('results/run-aggregated-results.json') as f:
+    r = json.load(f)
+    pa = r['primary_analysis']
+    print(f'BA: {pa[\"balanced_accuracy\"]:.1%}')
+    print(f'Blocked p: {pa[\"blocked_permutation\"][\"p_value\"]:.4f}')
+    print(f'Significant: {pa[\"significant\"]}')
+"
+```
+
+### Blocked vs Unrestricted
+
+The ~4-6x difference between blocked (p~0.51) and unrestricted (p~0.08-0.12) p-values confirms that **exchangeability is violated** by narrator-book collinearity (68%). Only the blocked p-value is valid for inference.
+
+---
+
+## 11. Contact
 
 For reproducibility issues, open a GitHub issue at:
 https://github.com/brysonwestover/book-of-mormon-textual-analysis/issues

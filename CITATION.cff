@@ -1,0 +1,42 @@
+# This CITATION.cff file was generated for the Book of Mormon Textual Analysis project
+# See: https://citation-file-format.github.io/
+
+cff-version: 1.2.0
+title: "Book of Mormon Textual Analysis: Run-Aggregated Stylometric Analysis"
+message: "If you use this software or methodology, please cite it as below."
+type: software
+authors:
+  - family-names: "Westover"
+    given-names: "Bryson"
+repository-code: "https://github.com/brysonwestover/book-of-mormon-textual-analysis"
+url: "https://osf.io/4W3KH"
+identifiers:
+  - type: doi
+    value: "10.17605/OSF.IO/4W3KH"
+    description: "OSF Pre-registration"
+version: "1.5.1"
+date-released: "2026-02-07"
+license: MIT
+keywords:
+  - stylometry
+  - authorship attribution
+  - Book of Mormon
+  - computational linguistics
+  - digital humanities
+  - permutation testing
+abstract: >-
+  Run-aggregated stylometric analysis of Book of Mormon narrator segments
+  addressing pseudoreplication concerns. Uses blocked permutation testing
+  to account for narrator-book collinearity. Primary analysis (N=12 runs,
+  3-class classification) yields null result (p=0.51), indicating no
+  detectable narrator-specific stylistic signal beyond book-level structure.
+
+references:
+  - type: report
+    title: "OSF Pre-registration: LLM-Assisted Textual Analysis of the Book of Mormon"
+    authors:
+      - family-names: "Westover"
+        given-names: "Bryson"
+    year: 2026
+    url: "https://osf.io/4W3KH"
+    doi: "10.17605/OSF.IO/4W3KH"
