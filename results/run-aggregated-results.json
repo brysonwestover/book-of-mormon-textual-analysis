@@ -1,0 +1,292 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-07T05:47:36.736930+00:00",
+    "script_version": "1.5.0",
+    "random_seed": 42,
+    "n_permutations_primary": 100000,
+    "methodology": "Run-aggregated counts with LOO CV",
+    "aggregation_method": "Sum raw FW counts across blocks, then convert to frequencies",
+    "status": "SUPPLEMENTARY (not pre-registered)",
+    "audit_response": "v1.5.0 addresses all critical/major issues from GPT audit"
+  },
+  "methodology_card": {
+    "study_design": {
+      "type": "Supplementary analysis (not pre-registered)",
+      "purpose": "Test narrator separability at run level to address pseudoreplication",
+      "unit_of_analysis": "Run (contiguous narrator segment)",
+      "n_observations": 14,
+      "n_features": 171
+    },
+    "primary_analysis": {
+      "pre_specified": true,
+      "description": "3-class classification (JACOB, MORMON, NEPHI)",
+      "excluded": "MORONI (n=2, insufficient for reliable classification)",
+      "classifier": "Logistic Regression",
+      "regularization": "L2 (Ridge)",
+      "C": 1.0,
+      "feature_selection": "None (all 171 function words)",
+      "validation": "Leave-one-out cross-validation",
+      "metric": "Balanced accuracy (macro-averaged recall)",
+      "inference": "Permutation test (100,000 permutations)",
+      "alpha": 0.05,
+      "correction": "None (single primary test)"
+    },
+    "exploratory_analyses": {
+      "pre_specified": false,
+      "correction": "Benjamini-Hochberg FDR",
+      "analyses": [
+        "4-class (includes MORONI)",
+        "Burrows' Delta classifier",
+        "Feature sensitivity (k=50,100,150)",
+        "C sensitivity (0.01-100)",
+        "Narrator vs Book comparison"
+      ]
+    },
+    "sensitivity_analyses": {
+      "blocked_permutation": "Within book-strata",
+      "feature_ranking": "Inside CV folds (leak-proof)",
+      "sample_weighting": "By run word count (optional)"
+    },
+    "assumptions": {
+      "exchangeability": "Runs are exchangeable under null hypothesis. Blocked permutation tests this assumption.",
+      "independence": "Runs are treated as independent observations. This is justified by run-level aggregation but may not hold if runs share latent factors.",
+      "stationarity": "Function word usage is stationary across the text. Not explicitly tested."
+    },
+    "limitations": {
+      "sample_size": "N=14 limits power; can detect ~25+ pt effects above chance",
+      "moroni": "Only 2 runs; excluded from confirmatory analysis",
+      "confounding": "Narrator correlates with book; cannot fully separate",
+      "generalization": "Results apply to this text; may not generalize"
+    }
+  },
+  "data_summary": {
+    "n_runs": 14,
+    "n_blocks": 244,
+    "total_words": 246220,
+    "n_features": 171,
+    "run_distribution": {
+      "JACOB": {
+        "n_runs": 3,
+        "n_blocks": 12,
+        "total_words": 10839
+      },
+      "MORMON": {
+        "n_runs": 4,
+        "n_blocks": 171,
+        "total_words": 174869
+      },
+      "MORONI": {
+        "n_runs": 2,
+        "n_blocks": 22,
+        "total_words": 22031
+      },
+      "NEPHI": {
+        "n_runs": 5,
+        "n_blocks": 39,
+        "total_words": 38481
+      }
+    },
+    "narrator_book_contingency": {
+      "contingency_table": {
+        "JACOB": {
+          "1 Nephi": 0,
+          "2 Nephi": 1,
+          "3 Nephi": 0,
+          "4 Nephi": 0,
+          "Alma": 0,
+          "Ether": 0,
+          "Helaman": 0,
+          "Jacob": 2,
+          "Mormon": 0,
+          "Moroni": 0,
+          "Mosiah": 0,
+          "Words of Mormon": 0
+        },
+        "MORMON": {
+          "1 Nephi": 0,
+          "2 Nephi": 0,
+          "3 Nephi": 3,
+          "4 Nephi": 1,
+          "Alma": 1,
+          "Ether": 0,
+          "Helaman": 1,
+          "Jacob": 0,
+          "Mormon": 1,
+          "Moroni": 1,
+          "Mosiah": 1,
+          "Words of Mormon": 1
+        },
+        "MORONI": {
+          "1 Nephi": 0,
+          "2 Nephi": 0,
+          "3 Nephi": 0,
+          "4 Nephi": 0,
+          "Alma": 0,
+          "Ether": 1,
+          "Helaman": 0,
+          "Jacob": 0,
+          "Mormon": 1,
+          "Moroni": 2,
+          "Mosiah": 0,
+          "Words of Mormon": 0
+        },
+        "NEPHI": {
+          "1 Nephi": 2,
+          "2 Nephi": 4,
+          "3 Nephi": 0,
+          "4 Nephi": 0,
+          "Alma": 0,
+          "Ether": 0,
+          "Helaman": 0,
+          "Jacob": 0,
+          "Mormon": 0,
+          "Moroni": 0,
+          "Mosiah": 0,
+          "Words of Mormon": 0
+        }
+      },
+      "narrators": [
+        "JACOB",
+        "MORMON",
+        "MORONI",
+        "NEPHI"
+      ],
+      "books": [
+        "1 Nephi",
+        "2 Nephi",
+        "3 Nephi",
+        "4 Nephi",
+        "Alma",
+        "Ether",
+        "Helaman",
+        "Jacob",
+        "Mormon",
+        "Moroni",
+        "Mosiah",
+        "Words of Mormon"
+      ],
+      "n_unique_pairs": 15,
+      "max_possible_pairs": 48,
+      "collinearity_index": 0.6875,
+      "interpretation": "Narrator-book collinearity: 68.8%. HIGH: narrator strongly predicts book"
+    }
+  },
+  "primary_analysis": {
+    "description": "3-class LR (JACOB, MORMON, NEPHI) - MORONI excluded (n=2)",
+    "pre_specified": true,
+    "confirmatory": true,
+    "classes": [
+      "JACOB",
+      "MORMON",
+      "NEPHI"
+    ],
+    "n_samples": 12,
+    "chance_level": 0.3333333333333333,
+    "balanced_accuracy": 0.45,
+    "raw_accuracy": 0.5,
+    "permutation": {
+      "observed_score": 0.45,
+      "p_value": 0.08538914610853891,
+      "null_mean": 0.2515807222222223,
+      "null_std": 0.1311822467897685,
+      "null_min": 0.0,
+      "null_max": 0.8888888888888888,
+      "null_5_percentile": 0.06666666666666667,
+      "null_95_percentile": 0.48888888888888893,
+      "n_permutations": 100000
+    },
+    "significant": false,
+    "alpha": 0.05,
+    "per_class_metrics": {
+      "per_class": {
+        "JACOB": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3
+        },
+        "MORMON": {
+          "precision": 0.5,
+          "recall": 0.75,
+          "f1": 0.6,
+          "support": 4
+        },
+        "NEPHI": {
+          "precision": 0.75,
+          "recall": 0.6,
+          "f1": 0.6666666666666666,
+          "support": 5
+        }
+      },
+      "macro_precision": 0.4166666666666667,
+      "macro_recall": 0.45,
+      "macro_f1": 0.4222222222222222,
+      "weighted_f1": 0.4777777777777777
+    },
+    "confusion_matrix": [
+      [
+        0,
+        2,
+        1
+      ],
+      [
+        1,
+        3,
+        0
+      ],
+      [
+        1,
+        1,
+        3
+      ]
+    ],
+    "y_true": [
+      "NEPHI",
+      "NEPHI",
+      "JACOB",
+      "NEPHI",
+      "NEPHI",
+      "NEPHI",
+      "JACOB",
+      "JACOB",
+      "MORMON",
+      "MORMON",
+      "MORMON",
+      "MORMON"
+    ],
+    "y_pred": [
+      "MORMON",
+      "JACOB",
+      "NEPHI",
+      "NEPHI",
+      "NEPHI",
+      "NEPHI",
+      "MORMON",
+      "MORMON",
+      "MORMON",
+      "MORMON",
+      "MORMON",
+      "JACOB"
+    ],
+    "run_ids": [
+      "run_0000",
+      "run_0002",
+      "run_0003",
+      "run_0004",
+      "run_0006",
+      "run_0008",
+      "run_0009",
+      "run_0011",
+      "run_0015",
+      "run_0017",
+      "run_0019",
+      "run_0021"
+    ]
+  },
+  "exploratory_analyses": {
+    "note": "All p-values FDR-corrected using Benjamini-Hochberg",
+    "fdr_correction": {
+      "4class_lr": {
+        "p_value_raw": 0.3203679632036796,
+        "p_value_fdr": 0.3737626237376262,
+        "significant_raw": 
