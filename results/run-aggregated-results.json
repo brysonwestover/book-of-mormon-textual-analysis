@@ -1,13 +1,15 @@
 {
   "metadata": {
-    "generated_at": "2026-02-07T05:47:36.736930+00:00",
-    "script_version": "1.5.0",
+    "generated_at": "2026-02-07T06:13:44.407494+00:00",
+    "script_version": "1.5.1",
     "random_seed": 42,
-    "n_permutations_primary": 100000,
+    "rng_note": "numpy.random.RandomState(42) used throughout for reproducibility",
+    "n_permutations_primary": 100,
+    "quick_mode": true,
     "methodology": "Run-aggregated counts with LOO CV",
     "aggregation_method": "Sum raw FW counts across blocks, then convert to frequencies",
     "status": "SUPPLEMENTARY (not pre-registered)",
-    "audit_response": "v1.5.0 addresses all critical/major issues from GPT audit"
+    "audit_response": "v1.5.1 addresses exchangeability via blocked permutation as PRIMARY"
   },
   "methodology_card": {
     "study_design": {
@@ -15,7 +17,8 @@
       "purpose": "Test narrator separability at run level to address pseudoreplication",
       "unit_of_analysis": "Run (contiguous narrator segment)",
       "n_observations": 14,
-      "n_features": 171
+      "n_features": 171,
+      "version": "1.5.1"
     },
     "primary_analysis": {
       "pre_specified": true,
@@ -27,9 +30,12 @@
       "feature_selection": "None (all 171 function words)",
       "validation": "Leave-one-out cross-validation",
       "metric": "Balanced accuracy (macro-averaged recall)",
-      "inference": "Permutation test (100,000 permutations)",
+      "inference": "BLOCKED permutation test (within book-strata)",
+      "inference_note": "Blocked permutation is PRIMARY because narrator-book confounding violates exchangeability. Unrestricted permutation is reported for reference only.",
+      "n_permutations": "10,000 (blocked)",
       "alpha": 0.05,
-      "correction": "None (single primary test)"
+      "correction": "None (single primary test)",
+      "uncertainty": "Bootstrap 95% CI for balanced accuracy"
     },
     "exploratory_analyses": {
       "pre_specified": false,
@@ -39,24 +45,37 @@
         "Burrows' Delta classifier",
         "Feature sensitivity (k=50,100,150)",
         "C sensitivity (0.01-100)",
-        "Narrator vs Book comparison"
+        "Narrator vs Book comparison",
+        "Unrestricted permutation (for comparison)"
       ]
     },
     "sensitivity_analyses": {
-      "blocked_permutation": "Within book-strata",
+      "unrestricted_vs_blocked": "Compare p-values to assess exchangeability",
       "feature_ranking": "Inside CV folds (leak-proof)",
-      "sample_weighting": "By run word count (optional)"
+      "jackknife_influence": "Remove-one-run influence on accuracy"
+    },
+    "strata_definition": {
+      "method": "Runs grouped by primary book (first book if multiple)",
+      "rationale": "Narrator labels correlate with book position (~68% collinearity). Blocked permutation within book strata respects this structure and yields valid p-values under the null of no narrator effect.",
+      "degenerate_handling": "Permutations that produce identical label vectors are counted toward the null distribution (conservative)."
     },
     "assumptions": {
-      "exchangeability": "Runs are exchangeable under null hypothesis. Blocked permutation tests this assumption.",
+      "exchangeability": "Under the null hypothesis, runs are exchangeable WITHIN book-strata. This is why blocked permutation is primary.",
       "independence": "Runs are treated as independent observations. This is justified by run-level aggregation but may not hold if runs share latent factors.",
       "stationarity": "Function word usage is stationary across the text. Not explicitly tested."
     },
     "limitations": {
-      "sample_size": "N=14 limits power; can detect ~25+ pt effects above chance",
+      "sample_size": "N=14 limits power; no formal power analysis performed",
+      "high_dimensional": "171 features with ~12 training samples/fold is p>>n",
       "moroni": "Only 2 runs; excluded from confirmatory analysis",
-      "confounding": "Narrator correlates with book; cannot fully separate",
+      "confounding": "Narrator correlates with book (~68%); cannot fully separate",
       "generalization": "Results apply to this text; may not generalize"
+    },
+    "reproducibility": {
+      "random_seed": 42,
+      "rng": "numpy.random.RandomState(42)",
+      "solver": "lbfgs",
+      "max_iter": 2000
     }
   },
   "data_summary": {
@@ -169,10 +188,18 @@
       "max_possible_pairs": 48,
       "collinearity_index": 0.6875,
       "interpretation": "Narrator-book collinearity: 68.8%. HIGH: narrator strongly predicts book"
+    },
+    "book_strata": {
+      "1 Nephi": 2,
+      "2 Nephi": 4,
+      "3 Nephi": 3,
+      "Jacob": 2,
+      "Moroni": 1
     }
   },
   "primary_analysis": {
     "description": "3-class LR (JACOB, MORMON, NEPHI) - MORONI excluded (n=2)",
+    "inference_method": "BLOCKED permutation (within book-strata) - respects exchangeability",
     "pre_specified": true,
     "confirmatory": true,
     "classes": [
@@ -183,17 +210,40 @@
     "n_samples": 12,
     "chance_level": 0.3333333333333333,
     "balanced_accuracy": 0.45,
+    "balanced_accuracy_bootstrap_ci": [
+      0.3833333333333333,
+      0.9333333333333332
+    ],
     "raw_accuracy": 0.5,
-    "permutation": {
+    "blocked_permutation": {
       "observed_score": 0.45,
-      "p_value": 0.08538914610853891,
-      "null_mean": 0.2515807222222223,
-      "null_std": 0.1311822467897685,
-      "null_min": 0.0,
-      "null_max": 0.8888888888888888,
-      "null_5_percentile": 0.06666666666666667,
-      "null_95_percentile": 0.48888888888888893,
-      "n_permutations": 100000
+      "p_value": 0.504950495049505,
+      "null_mean": 0.43266666666666664,
+      "null_std": 0.0546666666666667,
+      "null_5_percentile": 0.3833333333333333,
+      "null_95_percentile": 0.5166666666666667,
+      "n_permutations": 100,
+      "n_degenerate": 26,
+      "n_strata": 5,
+      "strata_sizes": {
+        "1 Nephi": 2,
+        "2 Nephi": 4,
+        "3 Nephi": 3,
+        "Jacob": 2,
+        "Moroni": 1
+      },
+      "note": "Blocked permutation within 5 book-strata. 26 degenerate permutations (identical to original)."
+    },
+    "unrestricted_permutation_reference": {
+      "observed_score": 0.45,
+      "p_value": 0.11764705882352941,
+      "null_mean": 0.28255555555555556,
+      "null_std": 0.1325346914752679,
+      "null_min": 0.06666666666666667,
+      "null_max": 0.7666666666666666,
+      "null_5_percentile": 0.08333333333333333,
+      "null_95_percentile": 0.4713888888888888,
+      "n_permutations": 50
     },
     "significant": false,
     "alpha": 0.05,
@@ -202,20 +252,35 @@
         "JACOB": {
           "precision": 0.0,
           "recall": 0.0,
+          "recall_ci_95": [
+            5.551115123125783e-17,
+            0.5614970317550454
+          ],
           "f1": 0.0,
-          "support": 3
+          "support": 3,
+          "n_correct": 0
         },
         "MORMON": {
           "precision": 0.5,
           "recall": 0.75,
+          "recall_ci_95": [
+            0.30064184258240184,
+            0.9544127391902995
+          ],
           "f1": 0.6,
-          "support": 4
+          "support": 4,
+          "n_correct": 3
         },
         "NEPHI": {
           "precision": 0.75,
           "recall": 0.6,
+          "recall_ci_95": [
+            0.2307242812760128,
+            0.882379225767352
+          ],
           "f1": 0.6666666666666666,
-          "support": 5
+          "support": 5,
+          "n_correct": 3
         }
       },
       "macro_precision": 0.4166666666666667,
@@ -281,12 +346,493 @@
       "run_0017",
       "run_0019",
       "run_0021"
-    ]
+    ],
+    "note": "Blocked permutation is PRIMARY because narrator-book confounding violates exchangeability. Unrestricted p-value is for REFERENCE only."
   },
   "exploratory_analyses": {
     "note": "All p-values FDR-corrected using Benjamini-Hochberg",
     "fdr_correction": {
       "4class_lr": {
-        "p_value_raw": 0.3203679632036796,
-        "p_value_fdr": 0.3737626237376262,
-        "significant_raw": 
+        "p_value_raw": 0.5490196078431373,
+        "p_value_fdr": 0.5490196078431373,
+        "significant_raw": false,
+        "significant_fdr": false
+      },
+      "4class_delta": {
+        "p_value_raw": 0.17647058823529413,
+        "p_value_fdr": 0.411764705882353,
+        "significant_raw": false,
+        "significant_fdr": false
+      },
+      "3class_delta": {
+        "p_value_raw": 0.5,
+        "p_value_fdr": 0.5490196078431373,
+        "significant_raw": false,
+        "significant_fdr": false
+      },
+      "feature_k50": {
+        "p_value_raw": 0.35294117647058826,
+        "p_value_fdr": 0.49411764705882355,
+        "significant_raw": false,
+        "significant_fdr": false
+      },
+      "feature_k100": {
+        "p_value_raw": 0.17647058823529413,
+        "p_value_fdr": 0.411764705882353,
+        "significant_raw": false,
+        "significant_fdr": false
+      },
+      "feature_k150": {
+        "p_value_raw": 0.13725490196078433,
+        "p_value_fdr": 0.411764705882353,
+        "significant_raw": false,
+        "significant_fdr": false
+      },
+      "book_prediction": {
+        "p_value_raw": 0.2549019607843137,
+        "p_value_fdr": 0.446078431372549,
+        "significant_raw": false,
+        "significant_fdr": false
+      }
+    },
+    "four_class_lr": {
+      "balanced_accuracy": 0.225,
+      "permutation": {
+        "observed_score": 0.225,
+        "p_value": 0.5490196078431373,
+        "null_mean": 0.2179166666666667,
+        "null_std": 0.11008913686443161,
+        "null_min": 0.0,
+        "null_max": 0.4541666666666666,
+        "null_5_percentile": 0.055625,
+        "null_95_percentile": 0.4147916666666666,
+        "n_permutations": 50
+      },
+      "per_class_metrics": {
+        "per_class": {
+          "JACOB": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "recall_ci_95": [
+              5.551115123125783e-17,
+              0.5614970317550454
+            ],
+            "f1": 0.0,
+            "support": 3,
+            "n_correct": 0
+          },
+          "MORMON": {
+            "precision": 0.2857142857142857,
+            "recall": 0.5,
+            "recall_ci_95": [
+              0.15003898915214947,
+              0.8499610108478506
+            ],
+            "f1": 0.36363636363636365,
+            "support": 4,
+            "n_correct": 2
+          },
+          "MORONI": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "recall_ci_95": [
+              0.0,
+              0.6576197724933469
+            ],
+            "f1": 0.0,
+            "support": 2,
+            "n_correct": 0
+          },
+          "NEPHI": {
+            "precision": 0.6666666666666666,
+            "recall": 0.4,
+            "recall_ci_95": [
+              0.11762077423264783,
+              0.769275718723987
+            ],
+            "f1": 0.5,
+            "support": 5,
+            "n_correct": 2
+          }
+        },
+        "macro_precision": 0.23809523809523808,
+        "macro_recall": 0.225,
+        "macro_f1": 0.2159090909090909,
+        "weighted_f1": 0.2824675324675325
+      },
+      "confusion_matrix": [
+        [
+          0,
+          2,
+          0,
+          1
+        ],
+        [
+          1,
+          2,
+          1,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          2
+        ]
+      ]
+    },
+    "four_class_delta": {
+      "balanced_accuracy": 0.325,
+      "permutation": {
+        "observed_score": 0.325,
+        "p_value": 0.17647058823529413,
+        "null_mean": 0.2179166666666667,
+        "null_std": 0.11008913686443161,
+        "null_min": 0.0,
+        "null_max": 0.4541666666666666,
+        "null_5_percentile": 0.055625,
+        "null_95_percentile": 0.4147916666666666,
+        "n_permutations": 50
+      },
+      "per_class_metrics": {
+        "per_class": {
+          "JACOB": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "recall_ci_95": [
+              5.551115123125783e-17,
+              0.5614970317550454
+            ],
+            "f1": 0.0,
+            "support": 3,
+            "n_correct": 0
+          },
+          "MORMON": {
+            "precision": 0.6666666666666666,
+            "recall": 0.5,
+            "recall_ci_95": [
+              0.15003898915214947,
+              0.8499610108478506
+            ],
+            "f1": 0.5714285714285714,
+            "support": 4,
+            "n_correct": 2
+          },
+          "MORONI": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "recall_ci_95": [
+              0.0,
+              0.6576197724933469
+            ],
+            "f1": 0.0,
+            "support": 2,
+            "n_correct": 0
+          },
+          "NEPHI": {
+            "precision": 0.4,
+            "recall": 0.8,
+            "recall_ci_95": [
+              0.37553462976252533,
+              0.9637758913675698
+            ],
+            "f1": 0.5333333333333333,
+            "support": 5,
+            "n_correct": 4
+          }
+        },
+        "macro_precision": 0.26666666666666666,
+        "macro_recall": 0.325,
+        "macro_f1": 0.2761904761904762,
+        "weighted_f1": 0.35374149659863946
+      },
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          2,
+          0,
+          2
+        ],
+        [
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          4
+        ]
+      ]
+    },
+    "three_class_delta": {
+      "balanced_accuracy": 0.43333333333333335
+    },
+    "c_sensitivity": {
+      "0.01": {
+        "balanced_accuracy": 0.45,
+        "n_correct": 6,
+        "n_total": 12
+      },
+      "0.1": {
+        "balanced_accuracy": 0.45,
+        "n_correct": 6,
+        "n_total": 12
+      },
+      "1.0": {
+        "balanced_accuracy": 0.45,
+        "n_correct": 6,
+        "n_total": 12
+      },
+      "10.0": {
+        "balanced_accuracy": 0.5333333333333333,
+        "n_correct": 7,
+        "n_total": 12
+      },
+      "100.0": {
+        "balanced_accuracy": 0.4666666666666666,
+        "n_correct": 6,
+        "n_total": 12
+      }
+    },
+    "feature_sensitivity": {
+      "k_values": [
+        50,
+        100,
+        150
+      ],
+      "results": {
+        "50": {
+          "n_features": 50,
+          "lr_balanced_accuracy": 0.3666666666666667,
+          "delta_balanced_accuracy": 0.2333333333333333,
+          "p_value": 0.35294117647058826,
+          "top_features": [
+            "the",
+            "and",
+            "of",
+            "that",
+            "unto",
+            "i",
+            "to",
+            "they",
+            "in",
+            "shall"
+          ]
+        },
+        "100": {
+          "n_features": 100,
+          "lr_balanced_accuracy": 0.5166666666666667,
+          "delta_balanced_accuracy": 0.3833333333333333,
+          "p_value": 0.17647058823529413,
+          "top_features": [
+            "the",
+            "and",
+            "of",
+            "that",
+            "unto",
+            "i",
+            "to",
+            "they",
+            "in",
+            "shall"
+          ]
+        },
+        "150": {
+          "n_features": 150,
+          "lr_balanced_accuracy": 0.45,
+          "delta_balanced_accuracy": 0.3666666666666667,
+          "p_value": 0.13725490196078433,
+          "top_features": [
+            "the",
+            "and",
+            "of",
+            "that",
+            "unto",
+            "i",
+            "to",
+            "they",
+            "in",
+            "shall"
+          ]
+        }
+      },
+      "interpretation": "Feature sensitivity analysis shows classification stability across different numbers of top-frequency features."
+    },
+    "narrator_vs_book": {
+      "narrator": {
+        "balanced_accuracy": 0.225,
+        "chance_level": 0.25,
+        "above_chance": -0.024999999999999994,
+        "n_classes": 4
+      },
+      "book": {
+        "balanced_accuracy": 0.08333333333333333,
+        "chance_level": 0.1111111111111111,
+        "above_chance": -0.027777777777777776,
+        "p_value": 0.2549019607843137,
+        "n_classes": 9,
+        "classes": [
+          "1 Nephi",
+          "1 Nephi/2 Nephi",
+          "2 Nephi",
+          "3 Nephi",
+          "3 Nephi/4 Nephi/Mormon",
+          "3 Nephi/Alma/Helaman/Mosiah/Words of Mormon",
+          "Ether/Mormon/Moroni",
+          "Jacob",
+          "Moroni"
+        ]
+      },
+      "comparison": {
+        "difference_ba": -0.14166666666666666,
+        "difference_above_chance": -0.002777777777777782,
+        "assessment": "REASSURING: Narrator at least as predictable as book"
+      },
+      "limitations": "This comparison is SUGGESTIVE, not DEFINITIVE. If narrator and book are collinear, we cannot disentangle their effects. A low book BA does not prove narrator signal is 'pure' style; it only suggests topic is not MORE predictable than narrator."
+    }
+  },
+  "sensitivity_analyses": {
+    "note": "Blocked permutation is now PRIMARY; unrestricted permutation shown for comparison",
+    "unrestricted_vs_blocked": {
+      "unrestricted_p": 0.11764705882352941,
+      "blocked_p": 0.504950495049505,
+      "interpretation": "Large difference indicates exchangeability violation"
+    },
+    "feature_ranking_inside_folds": {
+      "k_values": [
+        50,
+        100
+      ],
+      "results": {
+        "50": {
+          "n_features": 50,
+          "balanced_accuracy": 0.3666666666666667,
+          "p_value": 0.3333333333333333,
+          "method": "fold-internal ranking (no leakage)"
+        },
+        "100": {
+          "n_features": 100,
+          "balanced_accuracy": 0.5166666666666667,
+          "p_value": 0.1568627450980392,
+          "method": "fold-internal ranking (no leakage)"
+        }
+      },
+      "method": "Feature ranking computed INSIDE each CV fold (leak-proof)",
+      "interpretation": "Results may differ from corpus-wide ranking if test samples strongly influence corpus statistics."
+    },
+    "jackknife_influence": {
+      "run_0000": {
+        "reduced_accuracy": 0.5,
+        "influence": 0.04999999999999999,
+        "voice": "NEPHI"
+      },
+      "run_0002": {
+        "reduced_accuracy": 0.4166666666666667,
+        "influence": -0.033333333333333326,
+        "voice": "NEPHI"
+      },
+      "run_0003": {
+        "reduced_accuracy": 0.5166666666666667,
+        "influence": 0.06666666666666671,
+        "voice": "JACOB"
+      },
+      "run_0004": {
+        "reduced_accuracy": 0.3333333333333333,
+        "influence": -0.1166666666666667,
+        "voice": "NEPHI"
+      },
+      "run_0006": {
+        "reduced_accuracy": 0.25,
+        "influence": -0.2,
+        "voice": "NEPHI"
+      },
+      "run_0008": {
+        "reduced_accuracy": 0.25,
+        "influence": -0.2,
+        "voice": "NEPHI"
+      },
+      "run_0009": {
+        "reduced_accuracy": 0.3833333333333333,
+        "influence": -0.06666666666666671,
+        "voice": "JACOB"
+      },
+      "run_0011": {
+        "reduced_accuracy": 0.6,
+        "influence": 0.14999999999999997,
+        "voice": "JACOB"
+      },
+      "run_0015": {
+        "reduced_accuracy": 0.13333333333333333,
+        "influence": -0.31666666666666665,
+        "voice": "MORMON"
+      },
+      "run_0017": {
+        "reduced_accuracy": 0.35555555555555557,
+        "influence": -0.09444444444444444,
+        "voice": "MORMON"
+      },
+      "run_0019": {
+        "reduced_accuracy": 0.3111111111111111,
+        "influence": -0.1388888888888889,
+        "voice": "MORMON"
+      },
+      "run_0021": {
+        "reduced_accuracy": 0.4666666666666666,
+        "influence": 0.016666666666666607,
+        "voice": "MORMON"
+      }
+    }
+  },
+  "uncertainty": {
+    "wilson_ci_raw_accuracy": {
+      "lower": 0.2537815976337061,
+      "upper": 0.7462184023662939,
+      "note": "For raw accuracy only, not balanced accuracy"
+    },
+    "bootstrap_ci_balanced_accuracy": {
+      "lower": 0.3833333333333333,
+      "upper": 0.9333333333333332,
+      "n_bootstrap": 1000,
+      "caveat": "May be optimistic with N=12 due to LOO duplicate leakage"
+    },
+    "permutation_based_ci": {
+      "observed": 0.45,
+      "null_mean": 0.43266666666666664,
+      "null_std": 0.0546666666666667,
+      "null_ci_95": [
+        0.3833333333333333,
+        0.5166666666666667
+      ],
+      "null_spread_95": 0.13333333333333341,
+      "interpretation": "Observed BA (45.0%) vs null range [38.3%, 51.7%]"
+    }
+  },
+  "figures": {
+    "primary_permutation_null": "results/figures/primary-permutation-null.png",
+    "primary_confusion_matrix": "results/figures/primary-confusion-matrix.png",
+    "exploratory_4class_cm": "results/figures/exploratory-4class-cm.png",
+    "exploratory_delta_cm": "results/figures/exploratory-delta-cm.png"
+  },
+  "limitations": {
+    "sample_size": "N=12 (primary) or N=14 (exploratory) limits statistical power",
+    "moroni": "MORONI excluded from primary due to n=2",
+    "exchangeability": "Blocked permutation addresses but may not fully resolve",
+    "confounding": "Narrator-book collinearity: 68.8%. HIGH: narrator strongly predicts book",
+    "generalization": "Results specific to this text; may not generalize"
+  }
+}

@@ -21,7 +21,7 @@
 ### Output Data
 | File | SHA-256 | Size |
 |------|---------|------|
-| `results/run-aggregated-results.json` | `c46c098f1eb3f38b2bfbbd9f23849a6ee8aaaa95ff45df92abac8b51cbd07918` | ~50KB |
+| `results/run-aggregated-results.json` | `3ded2af5a3f671cf8ac72711cce44b902c63e2ba2d9b035688e9c96d239bc0f4` | ~50KB |
 
 ### Documentation
 | File | SHA-256 | Size |
@@ -37,7 +37,7 @@
 sha256sum -c <<EOF
 07c6bb1b54d7859a8534e1bfb75a7343578f14d4f4c8e1420cb982e4d640dfbd  scripts/run_aggregated_analysis.py
 83d45c1a38f6d1a81cb7acefa305ec752db599e9d4fa0753a0e4c3f8368054a1  data/text/processed/bom-voice-blocks.json
-c46c098f1eb3f38b2bfbbd9f23849a6ee8aaaa95ff45df92abac8b51cbd07918  results/run-aggregated-results.json
+3ded2af5a3f671cf8ac72711cce44b902c63e2ba2d9b035688e9c96d239bc0f4  results/run-aggregated-results.json
 5adfd745cd9aa32086ba1b547d40265ce6fbcc45ae69996ebaa013802eaf277a  docs/METHODOLOGY-v1.5.1.md
 EOF
 ```
@@ -86,18 +86,16 @@ EOF
 
 ## Notes
 
-1. **IMPORTANT:** The results JSON file (`results/run-aggregated-results.json`) was
-   truncated during a previous interrupted run. Before production use, regenerate:
+1. Results file generated in **quick mode** (100 permutations).
+   For production (100,000 permutations):
    ```bash
-   python scripts/run_aggregated_analysis.py --quick  # Development (~2 min)
-   python scripts/run_aggregated_analysis.py          # Production (~4-6 hours)
+   python scripts/run_aggregated_analysis.py  # ~4-6 hours
    ```
 
-2. After regeneration, update checksums in this file.
+2. Checksums generated with `sha256sum` on Linux (2026-02-07).
 
-3. Checksums generated with `sha256sum` on Linux.
-
-4. Key expected results after regeneration:
+3. Key results (quick mode):
    - Primary BA: 45.0%
-   - Blocked p-value: ~0.51
-   - Unrestricted p-value: ~0.08-0.12
+   - Blocked-null mean: 43.3%
+   - Blocked p-value: 0.5050
+   - Unrestricted p-value: 0.1176 (reference only)
